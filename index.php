@@ -6,7 +6,7 @@ require_once('include/functions.php');
 if(isset($_GET['section']))
 {
     $section = htmlspecialchars($_GET['section']);
-    $filename = 'controller/'.$section;
+    $filename = 'controller/'.$section.'.php';
     if(file_exists($filename))
     {
         include($filename);
