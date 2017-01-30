@@ -11,7 +11,7 @@
         foreach($listeQuiz as $quiz)
         { ?>
             <div class="quiz">
-                <a href="?section=quiz"><h2><?= $quiz['titre'] ?></h2></a>
+                <a href="?section=quiz&quiz=<?= $quiz['id'] ?>"><h2><?= $quiz['titre'] ?></h2></a>
             </div>
         <?php }?>
     </div>
