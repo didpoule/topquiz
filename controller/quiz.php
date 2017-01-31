@@ -22,7 +22,7 @@ if(isset($_GET['quiz']) && !isset($_POST['envoyer']))
             $nbReponses[$i] = $quiz[$i]['nb_reponses'];
             $i++;
         }
-        for($i = 0; $i <= $nbQuestions; $i++)
+        for($i = 0; $i < $nbQuestions; $i++)
         {
             $reponse[$i] = explode(',', $quiz[$i]['reponses']);
         }
