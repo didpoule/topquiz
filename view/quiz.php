@@ -7,7 +7,7 @@
 
 <body>
 <div id="corps_page">
-    <form action="quiz.php" id="quiz">
+    <form action="?section=quiz&quiz=<?= $quiz[0]['id'] ?>" id="quiz" method="post">
         <div class="titre"><h1><?= $quiz[0]['titre']?></h1></div>
         <?php
         for($question = 0; $question < $nbQuestions; $question++)
@@ -29,6 +29,9 @@
         }
             ?>
         </div>
+        <input type="hidden" name="id_quiz" value="<?= $quiz[0]['id'] ?>">
+        <input type="hidden" name="nb_questions" value="<?= $nbQuestions?>">
+        <input type="submit" name="envoyer">
     </form>
 </div>
 </body>
