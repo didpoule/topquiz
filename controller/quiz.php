@@ -14,10 +14,11 @@ if(isset($_GET['quiz']) && !isset($_POST['envoyer']))
         foreach ($donnees as $cle => $quiz[$i])
         {
             $donnees[$cle]['id'] = $quiz[$i]['id'];
+            $donnees[$cle]['question_id'] = $quiz[$i]['question_id'];
             $donnees[$cle]['titre'] = $quiz[$i]['titre'];
             $donnees[$cle]['question'] = $quiz[$i]['question'];
             $donnees[$cle]['reponses'] = $quiz[$i]['reponses'];
-            $nbQuestions = $quiz[$i]['nb_questions'];
+            $nbQuestions++;
             $nbReponses[$i] = $quiz[$i]['nb_reponses'];
             $i++;
         }
@@ -45,7 +46,6 @@ if(isset($_POST['envoyer']))
     }
     else
     {
-
         include('view/quiz_result.php');
     }
 }
