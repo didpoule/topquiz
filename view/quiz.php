@@ -21,8 +21,9 @@
             for($j = 0; $j  < $nbReponses[$question]; $j++)
             { ?>
                 <p>
-                    <input type="radio" name="question_<?= $question ?>" value="<?= $question.'_'.$j?>">
-                    <?= $reponse[$question][$j] ?>
+                    <input type="radio" name="question_<?= $question ?>" value="<?= $question.'_'.$j?>"
+                           id="<?= $question.'_'.$j?>">
+                    <label for="<?= $question.'_'.$j?>"><?= $reponse[$question][$j] ?></label>
                 </p>
                 <?php
             }
