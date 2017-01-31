@@ -8,8 +8,9 @@ function getQuiz($id)
         FROM Quiz 
         INNER JOIN Question AS q ON q.id_quiz = Quiz.id 
         INNER JOIN Reponse AS r ON r.id_question = q.id 
-        WHERE Quiz.id = :quiz 
-        GROUP BY Quiz.id, titre, question, question_id');
+        WHERE Quiz.id = :quiz
+        GROUP BY Quiz.id, titre, question, question_id
+        ORDER BY question_id');
     $req->bindParam(':quiz', $id, PDO::PARAM_INT);
     $req->execute();
     $donnees = $req->fetchAll();
