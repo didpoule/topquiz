@@ -14,6 +14,7 @@
         { ?>
         <div class="question_quiz">
             <h2><?= $question+1 . ': '. $quiz[$question]['question']?></h2>
+            <input type="hidden" name="question_id_<?= $question?>" value="<?= $quiz[$question]['question_id']?>">
         </div>
         <div class="reponses_quiz">
 
@@ -21,7 +22,7 @@
             for($j = 0; $j  < $nbReponses[$question]; $j++)
             { ?>
                 <p>
-                    <input type="radio" name="question_<?= $question ?>" value="<?= $question.'_'.$j?>"
+                    <input type="radio" name="question_<?= $question ?>" value="<?= $reponse[$question][$j] ?>"
                            id="<?= $question.'_'.$j?>">
                     <label for="<?= $question.'_'.$j?>"><?= $reponse[$question][$j] ?></label>
                 </p>
