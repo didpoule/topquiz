@@ -24,3 +24,20 @@ function selectedRadio($nomGroupe, $nbGroupes)
         return false;
     }
 }
+
+function quizScore($nbQuestions, $resultat, $correction)
+{
+    $score = array();
+    $bonneReponses = 0;
+    for($i = 0; $i< $nbQuestions; $i++)
+    {
+        if($resultat[$i]['reponse'] === $correction[$i]['reponse'])
+        {
+            $bonneReponses ++;
+        }
+    }
+    $score['nb_juste'] = $bonneReponses;
+    $score['score'] = ($bonneReponses / $nbQuestions) *100;
+
+    return $score;
+}
