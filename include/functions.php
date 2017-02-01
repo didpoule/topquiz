@@ -31,7 +31,7 @@ function quizScore($nbQuestions, $resultat, $correction)
     $bonneReponses = 0;
     for($i = 0; $i< $nbQuestions; $i++)
     {
-        if($resultat[$i]['reponse'] === $correction[$i]['reponse'])
+        if($resultat[$i]['reponse_id'] === $correction[$i]['reponse_id'])
         {
             $bonneReponses ++;
         }
@@ -40,4 +40,28 @@ function quizScore($nbQuestions, $resultat, $correction)
     $score['score'] = ($bonneReponses / $nbQuestions) *100;
 
     return $score;
+}
+// Retourne une chaine WHERE avec plusieurs conditions OU
+function setOrWhere($fieldName, $values)
+{
+    $count = count($values);
+    $prefixe = $fieldName.' = ';
+    $suffixe = ' ||';
+    $base = 'WHERE ';
+    $result = $base.$prefixe;
+    $j = $count - 1;
+    for($i = 0; $i < $count; $i++)
+    {
+        $result .= '\''.$values[$i].'\'';
+        if($i < $j)
+        {
+
+            $result .= $suffixe.$prefixe;
+        }
+        else
+        {
+            break;
+        }
+    }
+    return $result;
 }
