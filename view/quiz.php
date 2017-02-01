@@ -22,9 +22,9 @@
             for($j = 0; $j  < $nbReponses[$question]; $j++)
             { ?>
                 <p>
-                    <input type="radio" name="question_<?= $question ?>" value="<?= $reponse[$question][$j] ?>"
+                    <input type="radio" name="question_<?= $question ?>" value="<?= $reponse[$question]['contenu'][$j] ?>"
                            id="<?= $question.'_'.$j?>">
-                    <label for="<?= $question.'_'.$j?>"><?= $reponse[$question][$j] ?></label>
+                    <label for="<?= $question.'_'.$j?>"><?= $reponse[$question]['contenu'][$j] ?></label>
                 </p>
                 <?php
             }
