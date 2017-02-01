@@ -2,32 +2,7 @@
 require_once('model/quiz.php');
 if(isset($_GET['quiz']) && !isset($_POST['envoyer']))
 {
-    $quizId = htmlspecialchars($_GET['quiz']);
-    $donnees = getQuiz($quizId);
-    if ($donnees)
-    {
-        $nbQuestions = 0;
-        $quiz = array();
-        $nbReponses = array();
-        $reponse = array();
-        $i = 0;
-        foreach ($donnees as $cle => $quiz[$i])
-        {
-            $donnees[$cle]['id'] = $quiz[$i]['id'];
-            $donnees[$cle]['question_id'] = $quiz[$i]['question_id'];
-            $donnees[$cle]['titre'] = $quiz[$i]['titre'];
-            $donnees[$cle]['question'] = $quiz[$i]['question'];
-            $donnees[$cle]['reponses'] = $quiz[$i]['reponses'];
-            $nbQuestions++;
-            $nbReponses[$i] = $quiz[$i]['nb_reponses'];
-            $i++;
-        }
-        for($i = 0; $i < $nbQuestions; $i++)
-        {
-            $reponse[$i] = explode(',', $quiz[$i]['reponses']);
-        }
-    }
-    include('view/quiz.php');
+    getDonneesQuiz('quiz.php');
 }
 
 if(isset($_POST['envoyer']))
@@ -51,9 +26,15 @@ if(isset($_POST['envoyer']))
             $repChoisies['question_id'][$question] = $_POST['question_id_'.$question];
             $repChoisies['reponses'][$question] = ($_POST['question_'.$question]);
         }
+
         $correction = getBonnesReponses($_POST['id_quiz']);
+        $contenuRepChoisies = $repChoisies['reponses'];
         $repChoisies = getRepId($repChoisies['reponses']);
+        for($i = 0; $i < count($contenuRepChoisies); $i++)
+        {
+            $repChoisies[$i]['contenu'] = $contenuRepChoisies[$i];
+        }
         $score = quizScore($nbQuestions, $repChoisies, $correction);
-        include('view/quiz_result.php');
+        getDonneesQuiz('quiz_result.php', $repChoisies, $correction, $score);
     }
 }
