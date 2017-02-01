@@ -17,28 +17,32 @@ function getQuiz($id)
     $req->closeCursor();
     return $donnees;
 }
-function getRepId($reponse)
+function getRepId($reponses)
 {
+    $where = setOrWhere('r.contenu', $reponses);
+    $query = 'SELECT r.id AS reponse_id FROM Reponse as r ';
+    $query .= $where;
     global $bdd;
-    $req = $bdd->prepare('SELECT r.id AS reponse_id FROM Reponse AS r
-                                   WHERE r.contenu = :reponse');
-    $req->bindParam(':reponse', $reponse);
+    $req = $bdd->prepare($query);
     $req->execute();
-    $donnees = $req->fetch();
+    $donnees = $req->fetchAll();
     $req->closeCursor();
-    return $donnees['reponse_id'];
+    return $donnees;
 }
 
-function getBonneReponse($idQuestion)
+function getBonnesReponses($idQuiz)
 {
+    $query = 'SELECT q.id AS question_id, r.id AS reponse_id FROM Reponse AS r
+              INNER JOIN Question AS q
+                ON q.id_bonne_reponse = r.id
+              INNER JOIN Quiz
+                ON q.id_quiz = Quiz.id
+              WHERE Quiz.id = :quiz_id';
     global $bdd;
-    $req = $bdd->prepare('SELECT r.id AS reponse_id FROM Question AS q 
-                                    INNER JOIN Reponse AS r 
-                                    ON q.id_bonne_reponse = r.id
-                                    WHERE q.id = :question_id');
-    $req->bindParam(':question_id', $idQuestion, PDO::PARAM_INT);
+    $req = $bdd->prepare($query);
+    $req->bindParam(':quiz_id', $idQuiz, PDO::PARAM_INT);
     $req->execute();
-    $donnees = $req->fetch();
+    $donnees = $req->fetchAll();
     $req->closeCursor();
-    return $donnees['reponse_id'];
+    return $donnees;
 }
