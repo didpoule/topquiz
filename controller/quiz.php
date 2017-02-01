@@ -46,16 +46,13 @@ if(isset($_POST['envoyer']))
     }
     else
     {
-        $correction = array();
-        $repChoisies = array();
         for($question = 0; $question < $nbQuestions; $question++)
         {
-
-            $correction[$question]['question_id'] = $_POST['question_id_'.$question];
-            $correction[$question]['reponse'] = getBonneReponse($correction[$question]['question_id']);
-            $repChoisies[$question]['question_id'] = $_POST['question_id_'.$question];
-            $repChoisies[$question]['reponse'] = getRepId($_POST['question_'.$question]);
+            $repChoisies['question_id'][$question] = $_POST['question_id_'.$question];
+            $repChoisies['reponses'][$question] = ($_POST['question_'.$question]);
         }
+        $correction = getBonnesReponses($_POST['id_quiz']);
+        $repChoisies = getRepId($repChoisies['reponses']);
         $score = quizScore($nbQuestions, $repChoisies, $correction);
         include('view/quiz_result.php');
     }
