@@ -32,7 +32,7 @@ function getRepId($reponses)
 
 function getBonnesReponses($idQuiz)
 {
-    $query = 'SELECT q.id AS question_id, r.id AS reponse_id FROM Reponse AS r
+    $query = 'SELECT q.id AS question_id, r.id AS reponse_id, r.contenu AS contenu FROM Reponse AS r
               INNER JOIN Question AS q
                 ON q.id_bonne_reponse = r.id
               INNER JOIN Quiz
