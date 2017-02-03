@@ -17,7 +17,7 @@
         <h2><?= $question+1 . ': '. $quiz[$question]['question']?></h2>
     </div>
     <div class="reponses_quiz">
-
+    <?= $var ?>
         <?php
         for($j = 0; $j  < $nbReponses[$question]; $j++)
         {
