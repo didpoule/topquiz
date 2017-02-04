@@ -2,7 +2,10 @@
 require_once('model/quiz.php');
 if(isset($_GET['quiz']) && !isset($_POST['envoyer']))
 {
-    getDonneesQuiz('quiz.php');
+    $quiz_id = (int)$_GET['quiz'];
+    $quiz = getQuiz($quiz_id);
+    $quiz = setQuizArray($quiz);
+    require_once('view/quiz.php');
 }
 
 if(isset($_POST['envoyer']))
@@ -21,20 +24,21 @@ if(isset($_POST['envoyer']))
     }
     else
     {
+        $correction = getBonnesReponses($_POST['id_quiz']);
         for($question = 0; $question < $nbQuestions; $question++)
         {
             $repChoisies['question_id'][$question] = $_POST['question_id_'.$question];
-            $repChoisies['reponses'][$question] = ($_POST['question_'.$question]);
+            $repChoisies['reponse']['contenu'][$question] = ($_POST['question_'.$question]);
         }
-
-        $correction = getBonnesReponses($_POST['id_quiz']);
-        $contenuRepChoisies = $repChoisies['reponses'];
-        $repChoisies = getRepId($repChoisies['reponses']);
-        for($i = 0; $i < count($contenuRepChoisies); $i++)
+        $idRep = getRepId($repChoisies['reponse']['contenu']);
+        foreach($idRep as $key => $value)
         {
-            $repChoisies[$i]['contenu'] = $contenuRepChoisies[$i];
+            $repChoisies['reponse']['id'][$key] = $value['reponse_id'];
         }
         $score = quizScore($nbQuestions, $repChoisies, $correction);
-        getDonneesQuiz('quiz_result.php', $repChoisies, $correction, $score);
+        $quiz_id = (int)$_POST['id_quiz'];
+        $quiz = getQuiz($quiz_id);
+        $quiz = setQuizArray($quiz);
+        require_once('view/quiz_result.php');
     }
 }

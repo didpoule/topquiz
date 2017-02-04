@@ -7,31 +7,31 @@
 </head>
 <body>
 <div id="corps_page">
-    <div class="titre"><h1><?= $quiz[0]['titre']?></h1></div>
+    <div class="titre"><h1><?= $quiz['quiz_infos']['titre']?></h1></div>
     <?php
-    for($question = 0; $question < $nbQuestions; $question++)
+    for($question = 0; $question < $quiz['quiz_infos']['nombre_questions']; $question++)
     {
         ?>
-    <div class="question_quiz">
-        <h2><?= $question+1 . ': '. $quiz[$question]['question']?></h2>
-    </div>
-    <div class="reponses_quiz">
+        <div class="question_quiz">
+            <h2><?= $question + 1 . ': '. $quiz['question_'.$question]['question_contenu']?></h2>
+        </div>
+        <div class="reponses_quiz">
         <?php
-        for($j = 0; $j  < $nbReponses[$question]; $j++)
+        for($j = 0; $j  <  $quiz['question_'.$question]['nombre_reponses']; $j++)
         {
             /* Si la réponse à afficher est celle choisie par l'utilisateur et qu'elle est juste
                 OU Si la réponse à afficher est la bonne réponse et non choisie par l'utilisateur*/
-            if (($reponse[$question]['contenu'][$j] == $repChoisies[$question]['contenu']) &&
-                $repChoisies[$question]['reponse_id'] == $correction[$question]['reponse_id'] ||
-                (($correction[$question]['contenu'] == $reponse[$question]['contenu'][$j]) &&
-                    $repChoisies[$question]['reponse_id'] !=  $correction[$question]['reponse_id']))
+            if (($quiz['question_'.$question]['reponses_contenu'][$j] == $repChoisies['reponse']['contenu'][$question]) &&
+                $repChoisies['reponse']['id'][$question] == $correction[$question]['reponse_id'] ||
+                (($correction[$question]['contenu'] == $quiz['question_'.$question]['reponses_contenu'][$j]) &&
+                    $repChoisies['reponse']['id'][$question] !=  $correction[$question]['reponse_id']))
             {
                 echo '<div class="right">';
                 // Si la réponse à afficher est celle choisie par l'utilisateur et qu'elle est fausse
-            } elseif(($reponse[$question]['contenu'][$j] == $repChoisies[$question]['contenu']) &&
-                $repChoisies[$question]['reponse_id'] != $correction[$question]['reponse_id'])
+            } elseif(($quiz['question_'.$question]['reponses_contenu'][$j] ==$repChoisies['reponse']['contenu'][$question]) &&
+                $repChoisies['reponse']['id'][$question] != $correction[$question]['reponse_id'])
             {
-                echo '<div class="wrong">';         
+                echo '<div class="wrong">';
             } else
             {
                 echo '<div class="neutre">';
@@ -40,13 +40,13 @@
             ?>
 
             <p>
-                <?= $reponse[$question]['contenu'][$j]//$reponse[$question][$j]  ?>
+                <?= $quiz['question_'.$question]['reponses_contenu'][$j] ?>
             </p>
             </div>
             <?php
         }
     }
-        ?>
+    ?>
 </div>
 <h1>Score: <?= $score['score'] ?> %</h1>
 </div>

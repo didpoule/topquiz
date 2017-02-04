@@ -1,36 +1,36 @@
 <?php
+function setQuizArray($donnees)
+{
+    if ($donnees) {
+        $nbQuestions = 0;
+        $nbReponses = array();
+        $reponse = array();
+        foreach ($donnees as $cle => $donnees[$nbQuestions]) {
+            $nbReponses[$nbQuestions] = $donnees[$cle]['nb_reponses'];
+            $nbQuestions++;
+        }
+        for ($i = 0; $i < $nbQuestions; $i++) {
+            $reponse[$i]['contenu'] = explode(',', $donnees[$i]['reponses']);
+            $reponse[$i]['id'] = explode(',', $donnees[$i]['reponses_id']);
+        }
+        $quiz['quiz_infos']['titre'] = $donnees[0]['titre'];
+        $quiz['quiz_infos']['id'] = $donnees[0]['id'];
+        $quiz['quiz_infos']['nombre_questions'] = $nbQuestions;
+        for ($i = 0; $i < $nbQuestions; $i++) {
+            $quiz['question_'.($i)]['question_contenu'] = $donnees[$i]['question'];
+            $quiz['question_'.($i)]['question_id'] = $donnees[$i]['question_id'];
+            $quiz['question_'.($i)]['nombre_reponses'] = $donnees[$i]['nb_reponses'];
+            for ($j = 0; $j < $nbReponses[$i]; $j++) {
+                $quiz['question_'.($i)]['reponses_contenu'][$j] = $reponse[$i]['contenu'][$j];
+                $quiz['question_'.($i)]['reponses_id'][$j] = $reponse[$i]['id'][$j];
+            }
+        }
+        return $quiz;
+    }
+}
 /* Check if radio buttons sent in paramaters are ALL set
 If one button is not set function returns array with button names, else returns false
 */
-function getDonneesQuiz($fileToInclude, $repChoisies = NULL, $correction = NULL, $score = NULL)
-{
-    $quizId = htmlspecialchars($_GET['quiz']);
-    $donnees = getQuiz($quizId);
-    if ($donnees)
-    {
-        $nbQuestions = 0;
-        $quiz = array();
-        $nbReponses = array();
-        $reponse = array();
-        $i = 0;
-        foreach ($donnees as $cle => $quiz[$i])
-        {
-            $donnees[$cle]['id'] = $quiz[$i]['id'];
-            $donnees[$cle]['question_id'] = $quiz[$i]['question_id'];
-            $donnees[$cle]['titre'] = $quiz[$i]['titre'];
-            $donnees[$cle]['question'] = $quiz[$i]['question'];
-            $donnees[$cle]['reponses'] = $quiz[$i]['reponses'];
-            $nbQuestions++;
-            $nbReponses[$i] = $quiz[$i]['nb_reponses'];
-            $i++;
-        }
-        for($i = 0; $i < $nbQuestions; $i++)
-        {
-            $reponse[$i]['contenu'] = explode(',', $quiz[$i]['reponses']);
-        }
-    }
-    include('view/'.$fileToInclude);
-}
 function selectedRadio($nomGroupe, $nbGroupes)
 {
     $error = array();
@@ -58,9 +58,9 @@ function quizScore($nbQuestions, $resultat, $correction)
 {
     $score = array();
     $bonneReponses = 0;
-    for($i = 0; $i< $nbQuestions; $i++)
+    for($i = 0; $i < $nbQuestions; $i++)
     {
-        if($resultat[$i]['reponse_id'] === $correction[$i]['reponse_id'])
+        if($resultat['reponse']['id'][$i] === $correction[$i]['reponse_id'])
         {
             $bonneReponses ++;
         }
@@ -84,7 +84,6 @@ function setOrWhere($fieldName, $values)
         $result .= '\''.$values[$i].'\'';
         if($i < $j)
         {
-
             $result .= $suffixe.$prefixe;
         }
         else
