@@ -10,9 +10,12 @@ if(isset($_GET['quiz']) && !isset($_POST['envoyer']))
 
 if(isset($_POST['envoyer']))
 {
-    if(isset($_POST['id_quiz']) && isset($_GET['quiz']) && isset($_POST['nb_questions']))
+    if(isset($_POST['id_quiz']) && isset($_GET['quiz']))
     {
-        $nbQuestions = $_POST['nb_questions'];
+        $quiz_id = (int)$_POST['id_quiz'];
+        $quiz = getQuiz($quiz_id);
+        $quiz = setQuizArray($quiz);
+        $nbQuestions = $quiz['quiz_infos']['nombre_questions'];
         if($_POST['id_quiz'] === $_GET['quiz'])
         {
             $error = selectedRadio('question', $nbQuestions);
@@ -36,9 +39,6 @@ if(isset($_POST['envoyer']))
             $repChoisies['reponse']['id'][$key] = $value['reponse_id'];
         }
         $score = quizScore($nbQuestions, $repChoisies, $correction);
-        $quiz_id = (int)$_POST['id_quiz'];
-        $quiz = getQuiz($quiz_id);
-        $quiz = setQuizArray($quiz);
         require_once('view/quiz_result.php');
     }
 }

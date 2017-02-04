@@ -32,7 +32,6 @@
             ?>
         </div>
         <input type="hidden" name="id_quiz" value="<?= $quiz['quiz_infos']['id'] ?>">
-        <input type="hidden" name="nb_questions" value="<?= $quiz['quiz_infos']['nombre_questions']?>">
         <input type="submit" name="envoyer">
     </form>
 </div>
