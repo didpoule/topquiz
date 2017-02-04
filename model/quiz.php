@@ -2,7 +2,7 @@
 function getQuiz($id)
 {
     global $bdd;
-    $req= $bdd->prepare('SELECT Quiz.nom AS titre, q.contenu AS question, GROUP_CONCAT(r.contenu ORDER BY r.id) AS reponses, 
+    $req= $bdd->prepare('SELECT Quiz.nom AS titre, q.contenu AS question, GROUP_CONCAT(r.contenu ORDER BY r.id) AS reponses,  GROUP_CONCAT(r.id ORDER BY r.id) AS reponses_id,
 		COUNT(DISTINCT r.id) AS nb_reponses, 
         Quiz.id AS id , q.id as question_id
         FROM Quiz 
