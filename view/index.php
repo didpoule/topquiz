@@ -8,12 +8,11 @@
 <div id="corps_page">
     <div class="liste_quiz">
         <?php
-        foreach($listeQuiz as $quiz)
-        { ?>
+        foreach ($listeQuiz as $quiz) { ?>
             <div class="quiz">
                 <a href="?section=quiz&quiz=<?= $quiz['id'] ?>"><h2><?= $quiz['titre'] ?></h2></a>
             </div>
-        <?php }?>
+        <?php } ?>
     </div>
 </div>
 </body>
