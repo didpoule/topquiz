@@ -1,3 +1,2 @@
 .idea
-include/sql_connect.php
 include/sql.php
