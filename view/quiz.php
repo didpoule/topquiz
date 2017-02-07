@@ -21,16 +21,27 @@
         <div class="reponses_quiz">
 
             <?php
-            for ($j = 0; $j < $quiz['question_' . $question]['nombre_reponses']; $j++) { ?>
-                <p>
-                    <input type="radio" name="question_<?= $question ?>"
-                           value="<?= $quiz['question_' . $question]['reponses_contenu'][$j] ?>"
-                           id="<?= $question . '_' . $j ?>">
-                    <label for="<?= $question . '_' . $j ?>"><?= $quiz['question_' . $question]['reponses_contenu'][$j] ?></label>
-                </p>
-                <?php
+            for ($j = 0; $j < $quiz['question_' . $question]['nombre_reponses']; $j++) {
+                if ($quiz['question_' . $question]['question_type'] == 0) { ?>
+                    <p>
+                        <input type="radio" name="question_<?= $question ?>"
+                               value="<?= $quiz['question_' . $question]['reponses_contenu'][$j] ?>"
+                               id="<?= $question . '_' . $j ?>">
+                        <label for="<?= $question . '_' . $j ?>"><?= $quiz['question_' . $question]['reponses_contenu'][$j] ?></label>
+                    </p>
+                    <?php
+                } elseif ($quiz['question_' . $question]['question_type'] == 1) {
+                    ?>
+                    <p>
+                        <input type="checkbox" name="question_<?= $question ?>"
+                               value="<?= $quiz['question_' . $question]['reponses_contenu'][$j] ?>"
+                               id="<?= $question . '_' . $j ?>">
+                        <label for="<?= $question . '_' . $j ?>"><?= $quiz['question_' . $question]['reponses_contenu'][$j] ?></label>
+                    </p>
+                    <?php
+                }
             }
-            }
+        }
             ?>
         </div>
         <input type="hidden" name="id_quiz" value="<?= $quiz['quiz_infos']['id'] ?>">

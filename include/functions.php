@@ -17,15 +17,16 @@ function setQuizArray($donnees)
         $quiz['quiz_infos']['id'] = $donnees[0]['id'];
         $quiz['quiz_infos']['nombre_questions'] = $nbQuestions;
         for ($i = 0; $i < $nbQuestions; $i++) {
-            $quiz['question_' . ($i)]['question_contenu'] = $donnees[$i]['question'];
-            $quiz['question_' . ($i)]['question_id'] = $donnees[$i]['question_id'];
-            $quiz['question_' . ($i)]['nombre_reponses'] = $donnees[$i]['nb_reponses'];
+            $quiz['question_' . $i]['question_contenu'] = $donnees[$i]['question'];
+            $quiz['question_' . $i]['question_id'] = $donnees[$i]['question_id'];
+            $quiz['question_' .$i]['nombre_reponses'] = $donnees[$i]['nb_reponses'];
+            $quiz['question_' . $i]['question_type'] = $donnees[$i]['question_type'];
             for ($j = 0; $j < $nbReponses[$i]; $j++) {
-                $quiz['question_' . ($i)]['reponses_contenu'][$j] = $reponse[$i]['contenu'][$j];
-                $quiz['question_' . ($i)]['reponses_id'][$j] = $reponse[$i]['id'][$j];
+                $quiz['question_' . $i]['reponses_contenu'][$j] = $reponse[$i]['contenu'][$j];
+                $quiz['question_' . $i]['reponses_id'][$j] = $reponse[$i]['id'][$j];
             }
         }
-        return $quiz;
+            return $quiz;
     }
 }
 
