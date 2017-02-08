@@ -17,6 +17,8 @@
             <h2><?= $question + 1 . ': ' . $quiz['question_' . $question]['question_contenu'] ?></h2>
             <input type="hidden" name="question_id_<?= $question ?>"
                    value="<?= $quiz['question_' . $question]['question_id'] ?>">
+            <input type="hidden" name="question_type_<?= $question ?>"
+                   value="<?= $quiz['question_' . $question]['question_type'] ?>">
         </div>
         <div class="reponses_quiz">
 
@@ -33,7 +35,7 @@
                 } elseif ($quiz['question_' . $question]['question_type'] == 1) {
                     ?>
                     <p>
-                        <input type="checkbox" name="question_<?= $question ?>"
+                        <input type="checkbox" name="question_<?= $question ?>[]"
                                value="<?= $quiz['question_' . $question]['reponses_contenu'][$j] ?>"
                                id="<?= $question . '_' . $j ?>">
                         <label for="<?= $question . '_' . $j ?>"><?= $quiz['question_' . $question]['reponses_contenu'][$j] ?></label>
