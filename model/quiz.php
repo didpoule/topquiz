@@ -39,13 +39,14 @@ function getRepId($reponses)
 
 function getBonnesReponses($idQuiz)
 {
-    $query = 'SELECT q.id AS question_id, r.id AS reponse_id, r.contenu AS contenu
+    $query = 'SELECT q.id AS question_id, q.type AS type, GROUP_CONCAT(r.id) AS reponse_id, GROUP_CONCAT(r.contenu) AS contenu
               FROM lnk_Question_Reponse AS lqr
               INNER JOIN Question AS q 
                 ON lqr.id_question = q.id
               INNER JOIN Reponse AS r 
-                ON lqr.id_reponse = r.id
-              WHERE q.id_quiz = :quiz_id AND lqr.reponse_juste = 1';
+                ON lqr.id_reponse = r.id      
+              WHERE q.id_quiz = :quiz_id AND lqr.reponse_juste = 1
+              GROUP BY question_id, type';
     global $bdd;
     $req = $bdd->prepare($query);
     $req->bindParam(':quiz_id', $idQuiz, PDO::PARAM_INT);
@@ -54,4 +55,3 @@ function getBonnesReponses($idQuiz)
     $req->closeCursor();
     return $donnees;
 }
-
