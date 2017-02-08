@@ -22,13 +22,17 @@ if (isset($_POST['envoyer'])) {
         $correction = getBonnesReponses($_POST['id_quiz']);
         for ($question = 0; $question < $nbQuestions; $question++) {
             $repChoisies['question_id'][$question] = $_POST['question_id_' . $question];
-            $repChoisies['reponse']['contenu'][$question] = ($_POST['question_' . $question]);
+            if($_POST['question_type_' .$question] == 0) {
+                $repChoisies['reponse']['contenu'][$question] = ($_POST['question_' . $question]);
+            } elseif($_POST['question_type_' .$question] == 1) {
+                $repChoisies['reponse']['contenu'][$question] = implode(',', $_POST['question_' . $question]);
+            }
         }
+        $score = quizScore($nbQuestions, $repChoisies, $correction);
         $idRep = getRepId($repChoisies['reponse']['contenu']);
         foreach ($idRep as $key => $value) {
             $repChoisies['reponse']['id'][$key] = $value['reponse_id'];
         }
-        $score = quizScore($nbQuestions, $repChoisies, $correction);
         require_once('view/quiz_result.php');
     }
 }

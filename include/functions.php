@@ -56,7 +56,7 @@ function quizScore($nbQuestions, $resultat, $correction)
     $score = array();
     $bonneReponses = 0;
     for ($i = 0; $i < $nbQuestions; $i++) {
-        if ($resultat['reponse']['id'][$i] === $correction[$i]['reponse_id']) {
+        if ($resultat['reponse']['contenu'][$i] === $correction[$i]['contenu']) {
             $bonneReponses++;
         }
     }
