@@ -56,8 +56,15 @@ function quizScore($nbQuestions, $resultat, $correction)
     $score = array();
     $bonneReponses = 0;
     for ($i = 0; $i < $nbQuestions; $i++) {
-        if ($resultat['reponse']['contenu'][$i] === $correction[$i]['contenu']) {
-            $bonneReponses++;
+        if (is_array($resultat['reponse']['contenu'][$i])) {
+            if(array_compare($resultat['reponse']['contenu'][$i], $correction[$i]['contenu'])) {
+            //if (!array_diff($resultat['reponse']['contenu'][$i], $correction[$i]['contenu'])) {
+                $bonneReponses++;
+            }
+        } else {
+            if ($resultat['reponse']['contenu'][$i] === $correction[$i]['contenu']) {
+                $bonneReponses++;
+            }
         }
     }
     $score['nb_juste'] = $bonneReponses;
@@ -84,4 +91,10 @@ function setOrWhere($fieldName, $values)
         }
     }
     return $result;
+function array_compare(array $array1, array $array2)
+{
+    sort($array1);
+    sort($array2);
+
+    return $array1 == $array2;
 }
