@@ -29,3 +29,11 @@ function disconnect_user()
     unset($_SESSION['is_connected']);
     header('Location: /');
 }
+
+function init_user()
+{
+    $_SESSION['user_id'] = 0;
+    $_SESSION['user_pseudo'] = 0;
+    $_SESSION['quiz_done'] = array();
+    $_SESSION['is_connected'] = 0;
+}
