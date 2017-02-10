@@ -10,9 +10,6 @@ if (isset($_GET['quiz']) && !isset($_POST['envoyer'])) {
         include 'view/404.php';
         exit;
     } else {
-        if (in_array($quiz_id, $_SESSION['quiz_done'])) {
-            $msg = 'Vous avez déjà rempli ce quiz, vous ne pouvez pas le faire à nouveau !';
-        }
         require_once('view/quiz.php');
     }
 }
@@ -53,8 +50,6 @@ if (isset($_POST['envoyer'])) {
             if(!in_array($quiz_id, $_SESSION['quiz_done'])) {
                 add_quizToUser($quiz_id, $_SESSION['user_id']);
                 update_user_quiz();
-            } else {
-                header('Location: /');
             }
         }
         require_once('view/quiz_result.php');
