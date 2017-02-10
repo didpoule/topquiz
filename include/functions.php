@@ -103,6 +103,45 @@ function setOrWhere($fieldName, $values)
         }
     }
     return $result;
+}
+
+/**
+ * @param $quiz // array contents answer to display
+ * @param $repChoisies // array contents answer selected by user
+ * @param $correction // array contents right answer
+ * @param $question // var content number of question
+ * Checks if answer to display is right or wrong
+ */
+function answer_status($quiz, $repChoisies, $correction)
+{
+    if(is_array($repChoisies))
+    {
+        // Si la réponse à afficher est une bonne réponse
+        if((in_array($quiz, $repChoisies) && in_array($quiz, $correction)) ||
+            (!in_array($quiz, $repChoisies) && in_array($quiz, $correction))) {
+            return 'right';
+        } elseif(in_array($quiz, $repChoisies) && !in_array($quiz, $correction)) {
+            return 'wrong';
+        } else {
+            return 'neutre';
+        }
+    } else {
+        if (($quiz === $repChoisies) &&
+            $repChoisies == $correction ||
+            (($correction == $quiz) &&
+                $repChoisies != $correction)
+        ) {
+            return 'right';
+        } elseif (($quiz == $repChoisies) &&
+            $repChoisies != $correction
+        ) {
+            return 'wrong';
+        } else {
+            return 'neutre';
+        }
+    }
+}
+
 function array_compare(array $array1, array $array2)
 {
     sort($array1);
