@@ -20,18 +20,25 @@ if (isset($_POST['envoyer'])) {
         header('Location: ' . $_SERVER['HTTP_REFERER']);
     } else {
         $correction = getBonnesReponses($_POST['id_quiz']);
+        foreach($correction as $k => $v) {
+            if($_POST['question_type_' . $k] == 1)
+            {
+                $correction[$k]['contenu'] = explode(',', $v['contenu']);
+            }
+        }
         for ($question = 0; $question < $nbQuestions; $question++) {
             $repChoisies['question_id'][$question] = $_POST['question_id_' . $question];
-            if($_POST['question_type_' .$question] == 0) {
-                $repChoisies['reponse']['contenu'][$question] = ($_POST['question_' . $question]);
-            } elseif($_POST['question_type_' .$question] == 1) {
-                $repChoisies['reponse']['contenu'][$question] = implode(',', $_POST['question_' . $question]);
-            }
+                $repChoisies['reponse']['contenu'][$question] = $_POST['question_' . $question];
         }
         $score = quizScore($nbQuestions, $repChoisies, $correction);
         $idRep = getRepId($repChoisies['reponse']['contenu']);
         foreach ($idRep as $key => $value) {
-            $repChoisies['reponse']['id'][$key] = $value['reponse_id'];
+            if($_POST['question_type_' . $key] == 1) {
+                $repChoisies['reponse']['id'][$key] = explode(',', $value['reponse_id']);
+            } else {
+                $repChoisies['reponse']['id'][$key] = $value['reponse_id'];
+            }
+
         }
         require_once('view/quiz_result.php');
     }
