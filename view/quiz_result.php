@@ -17,28 +17,16 @@
         <div class="reponses_quiz">
         <?php
         for ($j = 0; $j < $quiz['question_' . $question]['nombre_reponses']; $j++) {
-            /* Si la réponse à afficher est celle choisie par l'utilisateur et qu'elle est juste
-                OU Si la réponse à afficher est la bonne réponse et non choisie par l'utilisateur*/
-            if (($quiz['question_' . $question]['reponses_contenu'][$j] == $repChoisies['reponse']['contenu'][$question]) &&
-                $repChoisies['reponse']['id'][$question] == $correction[$question]['reponse_id'] ||
-                (($correction[$question]['contenu'] == $quiz['question_' . $question]['reponses_contenu'][$j]) &&
-                    $repChoisies['reponse']['id'][$question] != $correction[$question]['reponse_id'])
-            ) {
-                echo '<div class="right">';
-                // Si la réponse à afficher est celle choisie par l'utilisateur et qu'elle est fausse
-            } elseif (($quiz['question_' . $question]['reponses_contenu'][$j] == $repChoisies['reponse']['contenu'][$question]) &&
-                $repChoisies['reponse']['id'][$question] != $correction[$question]['reponse_id']
-            ) {
-                echo '<div class="wrong">';
+            $answerStatus = answer_status($quiz['question_' . $question]['reponses_contenu'][$j],
+                $repChoisies['reponse']['contenu'][$question],
+                $correction[$question]['contenu']);
+            if( $answerStatus == 'right'){
+                echo '<div class="right"><p>' . $quiz['question_' . $question]['reponses_contenu'][$j] . '</p></div>';
+            } elseif($answerStatus == 'wrong') {
+                echo '<div class="wrong"><p>' . $quiz['question_' . $question]['reponses_contenu'][$j] . '</p></div>';
             } else {
-                echo '<div class="neutre">';
+                echo '<div class="neutre"><p>' . $quiz['question_' . $question]['reponses_contenu'][$j] . '</p></div>';
             }
-            ?>
-            <p>
-                <?= $quiz['question_' . $question]['reponses_contenu'][$j] ?>
-            </p>
-            </div>
-            <?php
         }
     }
     ?>
