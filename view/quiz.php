@@ -21,9 +21,9 @@
         <div class="question_quiz">
             <h2><?= $question + 1 . ': ' . $quiz['question_' . $question]['question_contenu'] ?></h2>
             <input type="hidden" name="question_id_<?= $question ?>"
-                   value="<?= $quiz['question_' . $question]['question_id'] ?>">
+                   value="<?= $quiz['question_' . $question]['question_id'] ?>"/>
             <input type="hidden" name="question_type_<?= $question ?>"
-                   value="<?= $quiz['question_' . $question]['question_type'] ?>">
+                   value="<?= $quiz['question_' . $question]['question_type'] ?>"/>
         </div>
         <div class="reponses_quiz">
 
@@ -33,7 +33,7 @@
                     <p>
                         <input type="radio" name="question_<?= $question ?>"
                                value="<?= $quiz['question_' . $question]['reponses_contenu'][$j] ?>"
-                               id="<?= $question . '_' . $j ?>">
+                               id="<?= $question . '_' . $j ?>"/>
                         <label for="<?= $question . '_' . $j ?>"><?= $quiz['question_' . $question]['reponses_contenu'][$j] ?></label>
                     </p>
                     <?php
@@ -42,10 +42,18 @@
                     <p>
                         <input type="checkbox" name="question_<?= $question ?>[]"
                                value="<?= $quiz['question_' . $question]['reponses_contenu'][$j] ?>"
-                               id="<?= $question . '_' . $j ?>">
+                               id="<?= $question . '_' . $j ?>"/>
                         <label for="<?= $question . '_' . $j ?>"><?= $quiz['question_' . $question]['reponses_contenu'][$j] ?></label>
                     </p>
                     <?php
+                } elseif ($quiz['question_' . $question]['question_type'] == 2) {
+                    ?>
+                    <p>
+                        <label for="<?= $question . '_' . $j ?>">Entrez votre réponse: </label>
+                        <input type="number" name="question_<?= $question ?>"
+                                id="<?= $question . '_' . $j ?>"/>
+                    </p>
+            <?php
                 }
             }
         }

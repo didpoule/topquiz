@@ -134,7 +134,7 @@ function setOrWhere($fieldName, $values)
  * @param $question // var content number of question
  * This function checks if answer to display is right or wrong
  */
-function answer_status($quiz, $repChoisies, $correction)
+function answer_status($quiz, $repChoisies, $correction, $typeQuestion)
 {
     if(is_array($repChoisies))
     {
@@ -147,7 +147,7 @@ function answer_status($quiz, $repChoisies, $correction)
         } else {
             return 'neutre';
         }
-    } else {
+    } elseif($typeQuestion != 2) {
         if (($quiz === $repChoisies) &&
             $repChoisies == $correction ||
             (($correction == $quiz) &&
@@ -160,6 +160,12 @@ function answer_status($quiz, $repChoisies, $correction)
             return 'wrong';
         } else {
             return 'neutre';
+        }
+    } elseif($typeQuestion == 2) {
+        if($repChoisies == $correction) {
+                return 'right';
+        } else {
+                return 'corrected';
         }
     }
 }

@@ -20,11 +20,14 @@
         for ($j = 0; $j < $quiz['question_' . $question]['nombre_reponses']; $j++) {
             $answerStatus = answer_status($quiz['question_' . $question]['reponses_contenu'][$j],
                 $repChoisies['reponse']['contenu'][$question],
-                $correction[$question]['contenu']);
+                $correction[$question]['contenu'], $quiz['question_' . $question]['question_type']);
             if( $answerStatus == 'right'){
-                echo '<div class="right"><p>' . $quiz['question_' . $question]['reponses_contenu'][$j] . '</p></div>';
+                echo '<p><div class="right">Bonne réponse : ' . $quiz['question_' . $question]['reponses_contenu'][$j] . '</div></p>';
             } elseif($answerStatus == 'wrong') {
-                echo '<div class="wrong"><p>' . $quiz['question_' . $question]['reponses_contenu'][$j] . '</p></div>';
+                echo '<p><div class="wrong">Mauvaise réponse : ' . $quiz['question_' . $question]['reponses_contenu'][$j] . '</div></p>';
+            } elseif ($answerStatus == 'corrected') {
+                echo '<p>Vous avez choisi : <div class="wrong">' . $repChoisies['reponse']['contenu'][$question] . '</div></p>';
+                echo '<p>La bonne réponse était: <div class="right">' . $quiz['question_' . $question]['reponses_contenu'][$j] . '</div></p>';
             } else {
                 echo '<div class="neutre"><p>' . $quiz['question_' . $question]['reponses_contenu'][$j] . '</p></div>';
             }
