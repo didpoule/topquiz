@@ -27,8 +27,9 @@ function getQuiz($id)
 function getRepId($reponses)
 {
     $where = setOrWhere('r.contenu', $reponses);
-    $query = 'SELECT r.id AS reponse_id FROM Reponse as r ';
+    $query = 'SELECT r.id_question,  GROUP_CONCAT(r.id ORDER BY r.id) AS reponse_id FROM Reponse as r ';
     $query .= $where;
+    $query .= ' GROUP BY r.id_question';
     global $bdd;
     $req = $bdd->prepare($query);
     $req->execute();
