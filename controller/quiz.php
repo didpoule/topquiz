@@ -38,6 +38,15 @@ if (isset($_POST['envoyer'])) {
             } else {
                 $repChoisies['reponse']['id'][$key] = $value['reponse_id'];
             }
+        }
+        if ($_SESSION['is_connected']) {
+            if(!in_array($quiz_id, $_SESSION['quiz_done'])) {
+                add_quizToUser($quiz_id, $_SESSION['user_id']);
+                update_user_quiz();
+            } else {
+                header('Location: /');
+            }
+
 
         }
         require_once('view/quiz_result.php');

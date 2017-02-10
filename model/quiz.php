@@ -71,3 +71,14 @@ function getBonnesReponses($idQuiz)
     $req->closeCursor();
     return $donnees;
 }
+
+function add_quizToUser($idQuiz, $idUser)
+{
+    global $bdd;
+    $req = $bdd->prepare('INSERT INTO lnk_Utilisateur_Quiz(id_utilisateur, id_quiz)
+                            VALUES(:idUser, :idQuiz)');
+    $req->bindParam(':idUser', $idUser, PDO::PARAM_INT);
+    $req->bindParam(':idQuiz', $idQuiz, PDO::PARAM_INT);
+    $req->execute();
+    $req->closeCursor();
+}
