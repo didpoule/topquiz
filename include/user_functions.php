@@ -21,3 +21,11 @@ function update_user_quiz()
     require_once 'model/user.php';
     $_SESSION['quiz_done'] = explode(',', getUserQuiz($_SESSION['user_id']));
 }
+
+function disconnect_user()
+{
+    unset($_SESSION['user_id']);
+    unset($_SESSION['user_pseudo']);
+    unset($_SESSION['is_connected']);
+    header('Location: /');
+}
