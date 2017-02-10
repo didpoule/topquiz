@@ -82,12 +82,24 @@ function setOrWhere($fieldName, $values)
     $result = $base . $prefixe;
     $j = $count - 1;
     for ($i = 0; $i < $count; $i++) {
-        $values[$i] = str_replace('\'', '\\\'', $values[$i]);
-        $result .= '\'' . $values[$i] . '\'';
-        if ($i < $j) {
-            $result .= $suffixe . $prefixe;
+        if (is_array($values[$i])) {
+            foreach($values[$i] as  $k => $v) {
+                $v = str_replace('\'', '\\\'', $v);
+                $result .= '\'' . $v . '\'';
+                if($k < count($values[$i]) - 1) {
+                    $result .= $suffixe . $prefixe;
+                } else {
+                    break;
+                }
+            }
         } else {
-            break;
+            $values[$i] = str_replace('\'', '\\\'', $values[$i]);
+            $result .= '\'' . $values[$i] . '\'';
+            if ($i < $j) {
+                $result .= $suffixe . $prefixe;
+            } else {
+                break;
+            }
         }
     }
     return $result;
