@@ -4,7 +4,14 @@ if (isset($_GET['quiz']) && !isset($_POST['envoyer'])) {
     $quiz_id = (int)$_GET['quiz'];
     $quiz = getQuiz($quiz_id);
     $quiz = setQuizArray($quiz);
-    require_once('view/quiz.php');
+    if(!$quiz) {
+        $msg = 'Ce quiz n\'existe pas';
+        header('HTTP/1.0 404 Not Found');
+        include 'view/404.php';
+        exit;
+    } else{
+        require_once('view/quiz.php');
+    }
 }
 if (isset($_POST['envoyer'])) {
     if (isset($_POST['id_quiz']) && isset($_GET['quiz'])) {
@@ -46,8 +53,6 @@ if (isset($_POST['envoyer'])) {
             } else {
                 header('Location: /');
             }
-
-
         }
         require_once('view/quiz_result.php');
     }

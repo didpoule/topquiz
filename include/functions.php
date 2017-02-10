@@ -177,3 +177,9 @@ function array_compare(array $array1, array $array2)
 
     return $array1 == $array2;
 }
+
+function get_msg($msg)
+{
+    echo $msg . '<br />';
+}
+}

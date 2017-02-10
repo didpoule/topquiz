@@ -15,6 +15,9 @@
                 Mot de passe : <input type='password' name='password'><br/><br/>
                 <input type='submit' name='connexion' value='connexion'>
             </p>
+            <?php if(isset($msg)) {
+                get_msg($msg);
+            }?>
     </div>
 </body>
 </html>
