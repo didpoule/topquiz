@@ -34,7 +34,7 @@ if (isset($_POST['envoyer'])) {
         } else {
             $correction = getBonnesReponses($_POST['id_quiz']);
             foreach ($correction as $k => $v) {
-                if ($_POST['question_type_' . $k] == 1) {
+                if ($_POST['question_type_' . $k] == 1 || $_POST['question_type_' . $k] == 3) {
                     $correction[$k]['contenu'] = explode(',', $v['contenu']);
                 }
             }
@@ -45,7 +45,7 @@ if (isset($_POST['envoyer'])) {
             $score = quizScore($nbQuestions, $repChoisies, $correction);
             $idRep = getRepId($repChoisies['reponse']['contenu']);
             foreach ($idRep as $key => $value) {
-                if ($_POST['question_type_' . $key] == 1) {
+                if ($_POST['question_type_' . $key] == 1 || $_POST['question_type_' . $key] == 3) {
                     $repChoisies['reponse']['id'][$key] = explode(',', $value['reponse_id']);
                 } else {
                     $repChoisies['reponse']['id'][$key] = $value['reponse_id'];

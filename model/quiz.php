@@ -7,8 +7,8 @@
 function getQuiz($id)
 {
     global $bdd;
-    $req = $bdd->prepare('SELECT Quiz.id AS id, Quiz.nom AS titre, q.contenu AS question, GROUP_CONCAT(DISTINCT(r.contenu) ORDER BY r.id) AS reponses,  
-		GROUP_CONCAT(DISTINCT(r.id) ORDER BY r.id) AS reponses_id,
+    $req = $bdd->prepare('SELECT Quiz.id AS id, Quiz.nom AS titre, q.contenu AS question, GROUP_CONCAT(DISTINCT(r.contenu) ORDER BY lnq.ordre_reponse ASC) AS reponses,  
+		GROUP_CONCAT(DISTINCT(r.id)ORDER BY lnq.ordre_reponse ASC) AS reponses_id,
 		COUNT(DISTINCT r.id) AS nb_reponses, 
         q.id as question_id,
         q.type AS question_type
@@ -18,7 +18,9 @@ function getQuiz($id)
         INNER JOIN Quiz
         	ON q.id_quiz = Quiz.id
         INNER JOIN Reponse AS r 
-        	ON r.id_question = q.id 
+        	ON r.id_question = q.id
+        INNER JOIN lnk_Question_Reponse AS lnq
+        	ON r.id = lnq.id_reponse
         WHERE Quiz.id = :quiz
         GROUP BY Quiz.id, titre, question, question_id
         ORDER BY question_id');
@@ -55,7 +57,9 @@ function getRepId($reponses)
  */
 function getBonnesReponses($idQuiz)
 {
-    $query = 'SELECT q.id AS question_id, q.type AS type, GROUP_CONCAT(r.id) AS reponse_id, GROUP_CONCAT(r.contenu) AS contenu
+    $query = 'SELECT q.id AS question_id, q.type AS type, 
+              GROUP_CONCAT(r.id ORDER BY lqr.ordre_reponse ASC) AS reponse_id, 
+              GROUP_CONCAT(r.contenu ORDER BY lqr.ordre_reponse ASC) AS contenu
               FROM lnk_Question_Reponse AS lqr
               INNER JOIN Question AS q 
                 ON lqr.id_question = q.id

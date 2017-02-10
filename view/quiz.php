@@ -54,6 +54,20 @@
                                 id="<?= $question . '_' . $j ?>"/>
                     </p>
             <?php
+                } elseif($quiz['question_' . $question]['question_type'] == 3) {
+                    ?>
+                    <p>
+                        <?php
+                        if($j == 0) {
+                            shuffle($quiz['question_' . $question]['reponses_contenu']);
+                            echo implode(',', $quiz['question_' . $question]['reponses_contenu'])  . '<br />' ;
+                        }
+                        ?>
+                        <label for="<?= $question . '_' . $j ?>"><?= $j + 1 ?></label>
+                        <input type="text" name="question_<?= $question ?>[]"
+                               id="<?= $question . '_' . $j ?>"/>
+                    </p>
+                    <?php
                 }
             }
         }

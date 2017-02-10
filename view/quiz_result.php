@@ -20,16 +20,21 @@
         for ($j = 0; $j < $quiz['question_' . $question]['nombre_reponses']; $j++) {
             $answerStatus = answer_status($quiz['question_' . $question]['reponses_contenu'][$j],
                 $repChoisies['reponse']['contenu'][$question],
-                $correction[$question]['contenu'], $quiz['question_' . $question]['question_type']);
+                $correction[$question]['contenu'], $quiz['question_' . $question]['question_type'], $j);
             if( $answerStatus == 'right'){
-                echo '<p><div class="right">Bonne réponse : ' . $quiz['question_' . $question]['reponses_contenu'][$j] . '</div></p>';
+                echo '<div class="right">Bonne réponse : ' . $quiz['question_' . $question]['reponses_contenu'][$j] . '</div>';
             } elseif($answerStatus == 'wrong') {
-                echo '<p><div class="wrong">Mauvaise réponse : ' . $quiz['question_' . $question]['reponses_contenu'][$j] . '</div></p>';
+                echo '<div class="wrong">Mauvaise réponse : ' . $quiz['question_' . $question]['reponses_contenu'][$j] . '</div>';
             } elseif ($answerStatus == 'corrected') {
-                echo '<p>Vous avez choisi : <div class="wrong">' . $repChoisies['reponse']['contenu'][$question] . '</div></p>';
-                echo '<p>La bonne réponse était: <div class="right">' . $quiz['question_' . $question]['reponses_contenu'][$j] . '</div></p>';
+                if($quiz['question_' . $question]['question_type'] == 2) {
+                    echo '<div class="wrong">Vous avez choisi : ' . $repChoisies['reponse']['contenu'][$question] . '</div>';
+                    echo '<div class="right">La bonne réponse était: ' . $quiz['question_' . $question]['reponses_contenu'][$j] . '</div>';
+                } elseif( $quiz['question_' . $question]['question_type'] == 3) {
+                    echo '<div class="wrong">Vous avez choisi : ' . $repChoisies['reponse']['contenu'][$question][$j] . '</div>';
+                    echo '<div class="right">La bonne réponse était:  ' . $quiz['question_' . $question]['reponses_contenu'][$j] . '</div>';
+                }
             } else {
-                echo '<div class="neutre"><p>' . $quiz['question_' . $question]['reponses_contenu'][$j] . '</p></div>';
+                echo '<div class="neutre">' . $quiz['question_' . $question]['reponses_contenu'][$j] . '</div>';
             }
         }
     }

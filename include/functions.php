@@ -74,8 +74,12 @@ function quizScore($nbQuestions, $userChoices, $correction)
     $bonneReponses = 0;
     for ($i = 0; $i < $nbQuestions; $i++) {
         if (is_array($userChoices['reponse']['contenu'][$i])) {
-            if(array_compare($userChoices['reponse']['contenu'][$i], $correction[$i]['contenu'])) {
-                //if (!array_diff($resultat['reponse']['contenu'][$i], $correction[$i]['contenu'])) {
+            if($correction[$i]['type'] == 1) {
+                $sort = true;
+            } else {
+                $sort = false;
+            }
+            if(array_compare($userChoices['reponse']['contenu'][$i], $correction[$i]['contenu'], $sort)) {
                 $bonneReponses++;
             }
         } else {
@@ -134,18 +138,27 @@ function setOrWhere($fieldName, $values)
  * @param $question // var content number of question
  * This function checks if answer to display is right or wrong
  */
-function answer_status($quiz, $repChoisies, $correction, $typeQuestion)
+function answer_status($quiz, $repChoisies, $correction, $typeQuestion, $nReponse)
 {
     if(is_array($repChoisies))
     {
-        // Si la réponse à afficher est une bonne réponse
-        if((in_array($quiz, $repChoisies) && in_array($quiz, $correction)) ||
-            (!in_array($quiz, $repChoisies) && in_array($quiz, $correction))) {
-            return 'right';
-        } elseif(in_array($quiz, $repChoisies) && !in_array($quiz, $correction)) {
-            return 'wrong';
-        } else {
-            return 'neutre';
+        if($typeQuestion == 1) {
+            // Si la réponse à afficher est une bonne réponse
+            if ((in_array($quiz, $repChoisies) && in_array($quiz, $correction)) ||
+                (!in_array($quiz, $repChoisies) && in_array($quiz, $correction))
+            ) {
+                return 'right';
+            } elseif (in_array($quiz, $repChoisies) && !in_array($quiz, $correction)) {
+                return 'wrong';
+            } else {
+                return 'neutre';
+            }
+        } elseif($typeQuestion == 3) {
+            if($repChoisies[$nReponse] == $correction[$nReponse]) {
+                return 'right';
+            } else {
+                return 'corrected';
+            }
         }
     } elseif($typeQuestion != 2) {
         if (($quiz === $repChoisies) &&
@@ -176,11 +189,12 @@ function answer_status($quiz, $repChoisies, $correction, $typeQuestion)
  * @return bool // true if array values are equals
  * This function return if 2 arrays values are equals or not
  */
-function array_compare(array $array1, array $array2)
+function array_compare(array $array1, array $array2, $sort = false)
 {
-    sort($array1);
-    sort($array2);
-
+    if($sort) {
+        sort($array1);
+        sort($array2);
+    }
     return $array1 == $array2;
 }
 
