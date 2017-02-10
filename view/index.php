@@ -6,6 +6,12 @@
 </head>
 <body>
 <div id="corps_page">
+    <nav>
+        <ul>
+            <li><a href="?section=login">Se connecter</a></li>
+            <li><a href="?section=user">Espace membre</a></li>
+        </ul>
+    </nav>
     <div class="liste_quiz">
         <?php
         foreach ($listeQuiz as $quiz) { ?>
