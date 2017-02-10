@@ -182,4 +182,11 @@ function get_msg($msg)
 {
     echo $msg . '<br />';
 }
+
+function closePopup()
+{
+    echo '
+                <form method="post">
+                    <input type="submit" name="ok" value="Fermer" />
+                </form>';
 }
