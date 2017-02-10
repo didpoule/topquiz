@@ -37,12 +37,12 @@ function getUserId($login)
 function getUserPseudo($id)
 {
     global $bdd;
-    $req = $bdd->prepare('SELECT id FROM Utilisateur WHERE id = :id');
+    $req = $bdd->prepare('SELECT pseudo FROM Utilisateur WHERE id = :id');
     $req->bindParam(':id', $id, PDO::PARAM_INT);
     $req->execute();
     $donnees = $req->fetch();
     $req->closeCursor();
-    return $donnees;
+    return $donnees['pseudo'];
 }
 
 function getUserQuiz($id)
