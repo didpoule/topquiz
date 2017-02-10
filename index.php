@@ -8,8 +8,14 @@ if (isset($_GET['section'])) {
     if (file_exists($filename)) {
         include($filename);
     } else {
+        $msg = '<h1>Page non trouvée</h1>';
+        header('HTTP/1.0 404 Not Found');
         include('view/404.php');
     }
+} elseif($_REQUEST != 'section') {
+    $msg = '<h1>Page non trouvée</h1>';
+    header('HTTP/1.0 404 Not Found');
+    include('view/404.php');
 } else {
     include('controller/index.php');
 }

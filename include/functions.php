@@ -84,3 +84,8 @@ function setOrWhere($fieldName, $values)
     }
     return $result;
 }
+
+function get_msg($msg)
+{
+    echo $msg . '<br />';
+}
