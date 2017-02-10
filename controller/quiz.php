@@ -9,7 +9,10 @@ if (isset($_GET['quiz']) && !isset($_POST['envoyer'])) {
         header('HTTP/1.0 404 Not Found');
         include 'view/404.php';
         exit;
-    } else{
+    } else {
+        if (in_array($quiz_id, $_SESSION['quiz_done'])) {
+            $msg = 'Vous avez déjà rempli ce quiz, vous ne pouvez pas le faire à nouveau !';
+        }
         require_once('view/quiz.php');
     }
 }
