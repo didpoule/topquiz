@@ -5,6 +5,7 @@
     <title>Page de connexion</title>
 </head>
 <body>
+<?php include_once 'view/menu.php'; ?>
     <h1>Connexion à l'espace membre</h1>
     <div id="corps_page">
         <p>Entrez votre login et votre mot de passe pour vous connecter.</p>

@@ -7,6 +7,7 @@
 </head>
 <body>
 <div id="corps_page">
+    <?php include_once 'view/menu.php'; ?>
     <div class="titre"><h1><?= $quiz['quiz_infos']['titre'] ?></h1></div>
     <?php
     for ($question = 0; $question < $quiz['quiz_infos']['nombre_questions']; $question++) {

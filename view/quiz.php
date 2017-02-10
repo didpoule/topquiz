@@ -6,6 +6,7 @@
 </head>
 <body>
 <div id="corps_page">
+    <?php include_once 'view/menu.php'; ?>
     <form action="?section=quiz&quiz=<?= $quiz['quiz_infos']['id'] ?>" id="quiz" method="post">
         <div class="titre"><h1><?= $quiz['quiz_infos']['titre'] ?></h1></div>
         <?php
