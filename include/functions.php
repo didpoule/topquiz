@@ -1,4 +1,9 @@
 <?php
+/**
+ * @param $donnees // quiz array get from query
+ * @return mixed // returns formatted array
+ * This function formats quiz array got from SQL query
+ */
 function setQuizArray($donnees)
 {
     if ($donnees) {
@@ -26,13 +31,18 @@ function setQuizArray($donnees)
                 $quiz['question_' . $i]['reponses_id'][$j] = $reponse[$i]['id'][$j];
             }
         }
-            return $quiz;
+        return $quiz;
     }
 }
 
-/* Check if radio buttons sent in paramaters are ALL set
-If one button is not set function returns array with button names, else returns false
+/*
 */
+/**
+ * @param $nomGroupe // Field's prefixe name
+ * @param $nbGroupes // Number of fields
+ * @return array|bool // returns array with button names, else returns false
+ *  Check if every field is set
+ */
 function selectedRadio($nomGroupe, $nbGroupes)
 {
     $error = array();
@@ -51,18 +61,25 @@ function selectedRadio($nomGroupe, $nbGroupes)
     }
 }
 
-function quizScore($nbQuestions, $resultat, $correction)
+/**
+ * @param $nbQuestions // Number of questions to check
+ * @param $userChoices // Answers selected by user
+ * @param $correction // Rights answers get from database
+ * @return array // Returns score in percentage and number of right answers
+ * This function checks user answers with right answers and returns an array
+ */
+function quizScore($nbQuestions, $userChoices, $correction)
 {
     $score = array();
     $bonneReponses = 0;
     for ($i = 0; $i < $nbQuestions; $i++) {
-        if (is_array($resultat['reponse']['contenu'][$i])) {
-            if(array_compare($resultat['reponse']['contenu'][$i], $correction[$i]['contenu'])) {
-            //if (!array_diff($resultat['reponse']['contenu'][$i], $correction[$i]['contenu'])) {
+        if (is_array($userChoices['reponse']['contenu'][$i])) {
+            if(array_compare($userChoices['reponse']['contenu'][$i], $correction[$i]['contenu'])) {
+                //if (!array_diff($resultat['reponse']['contenu'][$i], $correction[$i]['contenu'])) {
                 $bonneReponses++;
             }
         } else {
-            if ($resultat['reponse']['contenu'][$i] === $correction[$i]['contenu']) {
+            if ($userChoices['reponse']['contenu'][$i] === $correction[$i]['contenu']) {
                 $bonneReponses++;
             }
         }
@@ -72,7 +89,12 @@ function quizScore($nbQuestions, $resultat, $correction)
     return $score;
 }
 
-// Retourne une chaine WHERE avec plusieurs conditions OU
+/**
+ * @param $fieldName // Name of column in database
+ * @param $values // Values to compare in database
+ * @return string // returns WHERE for SQL query
+ * This function returns a string contents multiple parameters to check in database
+ */
 function setOrWhere($fieldName, $values)
 {
     $count = count($values);
@@ -110,7 +132,7 @@ function setOrWhere($fieldName, $values)
  * @param $repChoisies // array contents answer selected by user
  * @param $correction // array contents right answer
  * @param $question // var content number of question
- * Checks if answer to display is right or wrong
+ * This function checks if answer to display is right or wrong
  */
 function answer_status($quiz, $repChoisies, $correction)
 {
@@ -142,6 +164,12 @@ function answer_status($quiz, $repChoisies, $correction)
     }
 }
 
+/**
+ * @param array $array1 // 1st array to compare
+ * @param array $array2 // 2nd array to compare
+ * @return bool // true if array values are equals
+ * This function return if 2 arrays values are equals or not
+ */
 function array_compare(array $array1, array $array2)
 {
     sort($array1);

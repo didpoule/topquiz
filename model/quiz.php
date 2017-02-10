@@ -1,4 +1,9 @@
 <?php
+/**
+ * @param $id // Id of quiz to get
+ * @return array
+ * This function gets an array contents all data of a quiz by its id
+ */
 function getQuiz($id)
 {
     global $bdd;
@@ -24,6 +29,11 @@ function getQuiz($id)
     return $donnees;
 }
 
+/**
+ * @param $reponses // Answers to get ids
+ * @return array
+ * This functions returns ids of $reponses sent in
+ */
 function getRepId($reponses)
 {
     $where = setOrWhere('r.contenu', $reponses);
@@ -38,6 +48,11 @@ function getRepId($reponses)
     return $donnees;
 }
 
+/**
+ * @param $idQuiz // id of quiz to get answers
+ * @return array
+ * This function returns an array contents rights answers of a quiz
+ */
 function getBonnesReponses($idQuiz)
 {
     $query = 'SELECT q.id AS question_id, q.type AS type, GROUP_CONCAT(r.id) AS reponse_id, GROUP_CONCAT(r.contenu) AS contenu
