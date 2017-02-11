@@ -10,7 +10,7 @@ if (!$_SESSION['is_connected']) {
             if(checkLogin($login, $password)) {
                 $_SESSION['user_id'] = getUserId($login);
                 $_SESSION['user_pseudo'] = getUserPseudo($_SESSION['user_id']);
-                $_SESSION['quiz_done'] = explode(',', getUserQuiz($_SESSION['user_id']));
+                update_user_quiz();
                 $_SESSION['is_connected'] = 1;
                 header('Location: ?section=user');
             } else {
