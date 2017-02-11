@@ -46,11 +46,12 @@ if (isset($_POST['envoyer'])) {
                     $repChoisies['reponse']['id'][$key] = $value['reponse_id'];
                 }
             }
-            if(!in_array($quiz_id, $_SESSION['quiz_done'])) {
-                add_quizToUser($quiz_id, $_SESSION['user_id']);
-                update_user_quiz();
-            }
-
+                if (!in_array($quiz_id, $_SESSION['quiz_done'])) {
+                    foreach($repChoisies['reponse']['contenu'] as $v) {
+                        add_quizToUser($quiz_id, $_SESSION['user_id'], $v);
+                        update_user_quiz();
+                    }
+                }
             require_once('view/quiz_result.php');
         }
     } else {
