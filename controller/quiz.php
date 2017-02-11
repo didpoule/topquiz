@@ -6,7 +6,6 @@ if (isset($_GET['quiz']) && !isset($_POST['envoyer'])) {
     $quiz = setQuizArray($quiz);
     if(!$quiz) {
         $msg = 'Ce quiz n\'existe pas';
-        header('HTTP/1.0 404 Not Found');
         include 'view/404.php';
         exit;
     } else {
@@ -19,16 +18,15 @@ if (isset($_POST['envoyer'])) {
     $quiz = setQuizArray($quiz);
     $nbQuestions = $quiz['quiz_infos']['nombre_questions'];
     if ($_SESSION['is_connected']) {
-            if (isset($_POST['id_quiz']) && isset($_GET['quiz'])) {
-                $quiz_id = (int)$_POST['id_quiz'];
-                $quiz = getQuiz($quiz_id);
-                $quiz = setQuizArray($quiz);
-                $nbQuestions = $quiz['quiz_infos']['nombre_questions'];
-                if ($_POST['id_quiz'] === $_GET['quiz']) {
-                    $error = selectedRadio('question', $nbQuestions);
-                }
+        if (isset($_POST['id_quiz']) && isset($_GET['quiz'])) {
+            $quiz_id = (int)$_POST['id_quiz'];
+            $quiz = getQuiz($quiz_id);
+            $quiz = setQuizArray($quiz);
+            $nbQuestions = $quiz['quiz_infos']['nombre_questions'];
+            if ($_POST['id_quiz'] === $_GET['quiz']) {
+                $error = selectedRadio('question', $nbQuestions);
             }
-
+        }
         if ($error) {
             header('Location: ' . $_SERVER['HTTP_REFERER']);
         } else {
