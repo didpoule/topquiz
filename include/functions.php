@@ -210,3 +210,14 @@ function closePopup()
                     <input type="submit" name="ok" value="Fermer" />
                 </form>';
 }
+function set_correction ($idQuiz) {
+    $correction = getBonnesReponses($idQuiz);
+    if($correction) {
+        foreach ($correction as $k => $v) {
+            if ($_POST['question_type_' . $k] == 1 || $_POST['question_type_' . $k] == 3) {
+                $correction[$k]['contenu'] = explode(',', $v['contenu']);
+            }
+        }
+    }
+    return $correction;
+}

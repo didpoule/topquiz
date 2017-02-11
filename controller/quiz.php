@@ -32,12 +32,7 @@ if (isset($_POST['envoyer'])) {
         if ($error) {
             header('Location: ' . $_SERVER['HTTP_REFERER']);
         } else {
-            $correction = getBonnesReponses($_POST['id_quiz']);
-            foreach ($correction as $k => $v) {
-                if ($_POST['question_type_' . $k] == 1 || $_POST['question_type_' . $k] == 3) {
-                    $correction[$k]['contenu'] = explode(',', $v['contenu']);
-                }
-            }
+            $correction = set_correction($_POST['id_quiz']);
             for ($question = 0; $question < $nbQuestions; $question++) {
                 $repChoisies['question_id'][$question] = $_POST['question_id_' . $question];
                 $repChoisies['reponse']['contenu'][$question] = $_POST['question_' . $question];
