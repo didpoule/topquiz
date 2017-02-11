@@ -1,1 +1,2 @@
-ErrorDocument 404 view/404.php
+RewriteEngine on
+ErrorDocument 404 /view/404.php
