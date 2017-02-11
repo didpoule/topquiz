@@ -42,3 +42,16 @@ function init_user()
     $_SESSION['quiz_done'] = array();
     $_SESSION['is_connected'] = 0;
 }
+
+function set_view_Result($quizId) {
+    $result = getQuizResult($_SESSION['user_id'], $quizId);
+    $compteur = 0;
+    if($result) {
+        foreach($result as $v) {
+            $result['reponse']['contenu'][$compteur] = $v;
+            unset($result[$compteur]);
+            $compteur ++;
+        }
+    }
+    return $result;
+}

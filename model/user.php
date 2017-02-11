@@ -49,7 +49,10 @@ function getUserQuiz($id)
 {
     global $bdd;
     $req = $bdd->prepare('SELECT u.id AS id_utilisateur, 
-                                  GROUP_CONCAT(Quiz.id ORDER BY Quiz.id) AS id_quiz FROM Utilisateur AS u
+                                GROUP_CONCAT(DISTINCT(Quiz.id) ORDER BY Quiz.id) AS id_quiz, 
+                                GROUP_CONCAT(DISTINCT(Quiz.nom) ORDER BY Quiz.id) AS titre,
+                                COUNT(DISTINCT(Quiz.id)) as nombre  
+                                FROM Utilisateur AS u
                                   LEFT JOIN lnk_Utilisateur_Quiz AS luq 
                                     ON u.id = luq.id_utilisateur
                                   LEFT JOIN Quiz 
@@ -60,5 +63,19 @@ function getUserQuiz($id)
     $req->execute();
     $donnees = $req->fetch();
     $req->closeCursor();
-    return $donnees['id_quiz'];
+    return $donnees;
+}
+
+function getQuizResult($idUser, $idQuiz)
+{
+    global $bdd;
+    $req = $bdd->prepare('SELECT luq.reponse AS reponse 
+                          FROM lnk_Utilisateur_Quiz AS luq
+                          WHERE luq.id_utilisateur = :idUser AND luq.id_quiz = :idQuiz');
+    $req->bindParam(':idUser', $idUser, PDO::PARAM_INT);
+    $req->bindParam(':idQuiz', $idQuiz, PDO::PARAM_INT);
+    $req->execute();
+    $donnees = $req->fetchAll();
+    $req->closeCursor();
+    return $donnees;
 }
