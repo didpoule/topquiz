@@ -132,6 +132,60 @@ function setOrWhere($fieldName, $values)
 }
 
 /**
+ * @param $tableName // Name of the table to insert in
+ * @param array $values // array contents values by fieldNames
+ * @return string // SQL Query
+ * This function creates a SQL insert query from an array where values ares contented in keys named by Table fieldNames
+ */
+function insert_values($tableName, array $values)
+{
+    $fieldNames = array_keys($values);
+    $nFields = count($fieldNames);
+    $nValues = count($values[$fieldNames[0]]);
+    $separator = ', ';
+    $base = "INSERT INTO $tableName(";
+    $query = $base;
+
+    for($i = 0; $i < $nFields; $i++) {
+
+        $query .= $fieldNames[$i];
+        if($i < $nFields -1) {
+            $query .= $separator;
+        } else {
+            $query .= ') ';
+        }
+    }
+    $query .= 'VALUES(';
+    for($i = 0; $i < $nFields; $i++) {
+        $query .= str_addQuotes($values[$fieldNames[$i]][0]);
+        if($i < $nFields -1) {
+            $query .= $separator;
+        } else {
+            $query .= ') ';
+        }
+    }
+    if($nValues > 1) {
+        $query .= $separator . ' (';
+        for($i = 1; $i < $nValues; $i++) {
+            for($j = 0; $j < $nFields; $j++) {
+                $query .= str_addQuotes($values[$fieldNames[$j]][$i]);
+                if($j < $nFields -1) {
+                    $query .= $separator;
+                } else {
+                    $query .= ') ';
+                }
+            }
+            if($i < $nValues - 1) {
+                $query .= $separator . ' (';
+            } else {
+                $query .= ';';
+            }
+        }
+    }
+    return $query;
+}
+
+/**
  * @param $quiz // array contents answer to display
  * @param $repChoisies // array contents answer selected by user
  * @param $correction // array contents right answer
@@ -210,14 +264,50 @@ function closePopup()
                     <input type="submit" name="ok" value="Fermer" />
                 </form>';
 }
+
 function set_correction ($idQuiz) {
     $correction = getBonnesReponses($idQuiz);
     if($correction) {
         foreach ($correction as $k => $v) {
-            if ($_POST['question_type_' . $k] == 1 || $_POST['question_type_' . $k] == 3) {
+            if ($correction[$k]['type'] == 1 || $correction[$k]['type'] == 3) {
                 $correction[$k]['contenu'] = explode(',', $v['contenu']);
             }
         }
     }
     return $correction;
+}
+
+/**
+ * @param $text // Entrance string
+ * @return string
+ * This function returns a string surrounded by escaped quotes
+ */
+function str_addQuotes($text)
+{
+    $text = '\'' . $text . '\'';
+    return $text;
+}
+
+/**
+ * @param array $donnees // contents user answers to format
+ * @param $quizId // id of quiz
+ * @param $nbQuestions // number of questions
+ * @return array // formatted array
+ * This function reformats user answers array to be able to be inserted in DB
+ */
+function ur_setArray(array $donnees, $quizId, $nbQuestions)
+{
+    $userResult = array();
+    $userId = $_SESSION['user_id'];
+    for($i = 0; $i < $nbQuestions; $i++) {
+        $userResult['id_utilisateur'][$i] = $userId;
+        $userResult['id_quiz'][$i] = $quizId;
+        $userResult['id_question'][$i] = $donnees['question_id'][$i];
+        if(!is_array($donnees['reponse']['contenu'][$i])) {
+            $userResult['reponse'][$i] = $donnees['reponse']['contenu'][$i];
+        } else {
+            $userResult['reponse'][$i] = implode(',', $donnees['reponse']['contenu'][$i]);
+        }
+    }
+    return $userResult;
 }
