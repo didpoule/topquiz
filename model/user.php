@@ -69,8 +69,10 @@ function getUserQuiz($id)
 function getQuizResult($idUser, $idQuiz)
 {
     global $bdd;
-    $req = $bdd->prepare('SELECT luq.reponse AS reponse 
+    $req = $bdd->prepare('SELECT luq.reponse AS reponse,
+                          q.type AS type
                           FROM lnk_Utilisateur_Quiz AS luq
+                          INNER JOIN Question AS q ON q.id = luq.id_question
                           WHERE luq.id_utilisateur = :idUser AND luq.id_quiz = :idQuiz');
     $req->bindParam(':idUser', $idUser, PDO::PARAM_INT);
     $req->bindParam(':idQuiz', $idQuiz, PDO::PARAM_INT);

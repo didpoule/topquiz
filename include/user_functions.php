@@ -48,7 +48,11 @@ function set_view_Result($quizId) {
     $compteur = 0;
     if($result) {
         foreach($result as $v) {
-            $result['reponse']['contenu'][$compteur] = $v;
+            if($v['type'] == 1 || $v['type'] == 3) {
+                $result['reponse']['contenu'][$compteur] = explode(',', $v['reponse']);
+            } else {
+                $result['reponse']['contenu'][$compteur] = $v['reponse'];
+            }
             unset($result[$compteur]);
             $compteur ++;
         }
