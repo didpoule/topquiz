@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Client :  localhost
--- Généré le :  Ven 10 Février 2017 à 17:55
+-- Généré le :  Lun 13 Février 2017 à 01:42
 -- Version du serveur :  5.7.17-0ubuntu0.16.04.1
 -- Version de PHP :  7.0.13-0ubuntu0.16.04.1
 
@@ -29,67 +29,72 @@ SET time_zone = "+00:00";
 CREATE TABLE `lnk_Question_Reponse` (
   `id_question` int(10) UNSIGNED NOT NULL,
   `id_reponse` int(10) UNSIGNED NOT NULL,
-  `reponse_juste` int(10) UNSIGNED DEFAULT NULL
+  `reponse_juste` int(10) UNSIGNED DEFAULT NULL,
+  `ordre_reponse` int(11) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
 -- Contenu de la table `lnk_Question_Reponse`
 --
 
-INSERT INTO `lnk_Question_Reponse` (`id_question`, `id_reponse`, `reponse_juste`) VALUES
-(1, 1, NULL),
-(1, 2, 1),
-(1, 3, NULL),
-(1, 4, NULL),
-(2, 5, NULL),
-(2, 6, NULL),
-(2, 7, 1),
-(2, 8, NULL),
-(3, 9, NULL),
-(3, 10, 1),
-(3, 11, NULL),
-(3, 12, NULL),
-(4, 13, 1),
-(4, 14, NULL),
-(4, 15, NULL),
-(4, 16, NULL),
-(5, 17, NULL),
-(5, 18, NULL),
-(5, 19, 1),
-(5, 20, NULL),
-(6, 21, NULL),
-(6, 22, 1),
-(6, 23, NULL),
-(6, 24, NULL),
-(7, 25, NULL),
-(7, 26, NULL),
-(7, 27, NULL),
-(7, 28, 1),
-(8, 29, 1),
-(8, 30, NULL),
-(8, 31, NULL),
-(8, 32, NULL),
-(9, 33, NULL),
-(9, 34, NULL),
-(9, 35, 1),
-(9, 36, NULL),
-(10, 37, NULL),
-(10, 38, 1),
-(10, 39, NULL),
-(10, 40, NULL),
-(11, 41, 1),
-(11, 42, NULL),
-(11, 43, NULL),
-(11, 44, NULL),
-(12, 45, 1),
-(12, 46, NULL),
-(12, 47, NULL),
-(12, 48, NULL),
-(13, 49, 1),
-(13, 50, 1),
-(13, 51, NULL),
-(13, 52, NULL),
-(13, 53, 1);
+INSERT INTO `lnk_Question_Reponse` (`id_question`, `id_reponse`, `reponse_juste`, `ordre_reponse`) VALUES
+(1, 1, NULL, NULL),
+(1, 2, 1, NULL),
+(1, 3, NULL, NULL),
+(1, 4, NULL, NULL),
+(2, 5, NULL, NULL),
+(2, 6, NULL, NULL),
+(2, 7, 1, NULL),
+(2, 8, NULL, NULL),
+(3, 9, NULL, NULL),
+(3, 10, 1, NULL),
+(3, 11, NULL, NULL),
+(3, 12, NULL, NULL),
+(4, 13, 1, NULL),
+(4, 14, NULL, NULL),
+(4, 15, NULL, NULL),
+(4, 16, NULL, NULL),
+(5, 17, NULL, NULL),
+(5, 18, NULL, NULL),
+(5, 19, 1, NULL),
+(5, 20, NULL, NULL),
+(6, 21, NULL, NULL),
+(6, 22, 1, NULL),
+(6, 23, NULL, NULL),
+(6, 24, NULL, NULL),
+(7, 25, NULL, NULL),
+(7, 26, NULL, NULL),
+(7, 27, NULL, NULL),
+(7, 28, 1, NULL),
+(8, 29, 1, NULL),
+(8, 30, NULL, NULL),
+(8, 31, NULL, NULL),
+(8, 32, NULL, NULL),
+(9, 33, NULL, NULL),
+(9, 34, NULL, NULL),
+(9, 35, 1, NULL),
+(9, 36, NULL, NULL),
+(10, 37, NULL, NULL),
+(10, 38, 1, NULL),
+(10, 39, NULL, NULL),
+(10, 40, NULL, NULL),
+(11, 41, 1, NULL),
+(11, 42, NULL, NULL),
+(11, 43, NULL, NULL),
+(11, 44, NULL, NULL),
+(12, 45, 1, NULL),
+(12, 46, NULL, NULL),
+(12, 47, NULL, NULL),
+(12, 48, NULL, NULL),
+(13, 50, 1, NULL),
+(13, 51, NULL, NULL),
+(13, 52, NULL, NULL),
+(13, 53, 1, NULL),
+(14, 54, 1, NULL),
+(13, 55, 1, NULL),
+(15, 58, 1, 1),
+(15, 57, 1, 3),
+(15, 56, 1, 2);
 
 -- --------------------------------------------------------
 
@@ -99,15 +104,21 @@ INSERT INTO `lnk_Question_Reponse` (`id_question`, `id_reponse`, `reponse_juste`
 
 CREATE TABLE `lnk_Utilisateur_Quiz` (
   `id_utilisateur` int(10) UNSIGNED NOT NULL,
-  `id_quiz` int(10) UNSIGNED NOT NULL
+  `id_quiz` int(10) UNSIGNED NOT NULL,
+  `id_question` int(10) UNSIGNED NOT NULL,
+  `reponse` varchar(255) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
 -- Contenu de la table `lnk_Utilisateur_Quiz`
 --
 
-INSERT INTO `lnk_Utilisateur_Quiz` (`id_utilisateur`, `id_quiz`) VALUES
-(1, 1);
+INSERT INTO `lnk_Utilisateur_Quiz` (`id_utilisateur`, `id_quiz`, `id_question`, `reponse`) VALUES
+(1, 1, 1, 'Au niveau 12'),
+(1, 1, 2, 'Niantic'),
+(1, 1, 13, '10km,5km,2km'),
+(1, 1, 14, '151'),
+(1, 1, 15, 'bulbizarre,herbizarre,florizarre');
 
 -- --------------------------------------------------------
 
@@ -139,7 +150,9 @@ INSERT INTO `Question` (`id`, `contenu`, `id_quiz`, `type`) VALUES
 (10, 'Comment meurt Fuuka dans le manga du même nom ?', 2, 0),
 (11, 'Quelle est la spécialité de Soma ?', 2, 0),
 (12, 'Quel jeu se pratique dans Chihayafuru ?', 2, 0),
-(13, 'Quelle distance doit-on marcher pour faire éclore un oeuf ?', 1, 1);
+(13, 'Quelle distance doit-on marcher pour faire éclore un oeuf ?', 1, 1),
+(14, 'Combien de Pokémons y\'a-il dans la première génération ?', 1, 2),
+(15, 'Mettez le nom des évolutions de ce Pokémon dans l\'ordre', 1, 3);
 
 -- --------------------------------------------------------
 
@@ -225,11 +238,15 @@ INSERT INTO `Reponse` (`id`, `contenu`, `id_question`) VALUES
 (46, 'le fuda', 12),
 (47, 'le sugoroku', 12),
 (48, 'le kendama', 12),
-(49, '1km', 13),
 (50, '2km', 13),
 (51, '3km', 13),
 (52, '4km', 13),
-(53, '5km', 13);
+(53, '5km', 13),
+(54, '151', 14),
+(55, '10km', 13),
+(56, 'herbizarre', 15),
+(57, 'florizarre', 15),
+(58, 'bulbizarre', 15);
 
 -- --------------------------------------------------------
 
@@ -249,7 +266,7 @@ CREATE TABLE `Utilisateur` (
 --
 
 INSERT INTO `Utilisateur` (`id`, `login`, `password`, `pseudo`) VALUES
-(1, 'jojo', 'test', 'test2');
+(1, 'jojo', 'test', 'didpoule');
 
 --
 -- Index pour les tables exportées
@@ -267,6 +284,7 @@ ALTER TABLE `lnk_Question_Reponse`
 --
 ALTER TABLE `lnk_Utilisateur_Quiz`
   ADD KEY `fk_id_utilisateur` (`id_utilisateur`),
+  ADD KEY `id_question` (`id_question`),
   ADD KEY `fk_id_quiz_utilisateur` (`id_quiz`);
 
 --
@@ -304,7 +322,7 @@ ALTER TABLE `Utilisateur`
 -- AUTO_INCREMENT pour la table `Question`
 --
 ALTER TABLE `Question`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=14;
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=16;
 --
 -- AUTO_INCREMENT pour la table `Quiz`
 --
@@ -314,7 +332,7 @@ ALTER TABLE `Quiz`
 -- AUTO_INCREMENT pour la table `Reponse`
 --
 ALTER TABLE `Reponse`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=54;
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=59;
 --
 -- AUTO_INCREMENT pour la table `Utilisateur`
 --
@@ -328,14 +346,15 @@ ALTER TABLE `Utilisateur`
 -- Contraintes pour la table `lnk_Question_Reponse`
 --
 ALTER TABLE `lnk_Question_Reponse`
-  ADD CONSTRAINT `fk_question_id` FOREIGN KEY (`id_question`) REFERENCES `Question` (`id`),
-  ADD CONSTRAINT `fk_reponse_id` FOREIGN KEY (`id_reponse`) REFERENCES `Reponse` (`id`);
+  ADD CONSTRAINT `fk_question_id` FOREIGN KEY (`id_question`) REFERENCES `Question` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  ADD CONSTRAINT `fk_reponse_id` FOREIGN KEY (`id_reponse`) REFERENCES `Reponse` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
 -- Contraintes pour la table `lnk_Utilisateur_Quiz`
 --
 ALTER TABLE `lnk_Utilisateur_Quiz`
-  ADD CONSTRAINT `fk_id_quiz_utilisateur` FOREIGN KEY (`id_quiz`) REFERENCES `Quiz` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  ADD CONSTRAINT `fk_id_question_utilisateur` FOREIGN KEY (`id_question`) REFERENCES `Question` (`id`),
+  ADD CONSTRAINT `fk_id_quiz_utilisateur` FOREIGN KEY (`id_quiz`) REFERENCES `Quiz` (`id`),
   ADD CONSTRAINT `fk_id_utilisateur` FOREIGN KEY (`id_utilisateur`) REFERENCES `Utilisateur` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
