@@ -7,11 +7,12 @@
 function getQuiz($id)
 {
     global $bdd;
-    $req = $bdd->prepare('SELECT Quiz.id AS id, Quiz.nom AS titre, q.contenu AS question, GROUP_CONCAT(DISTINCT(r.contenu) ORDER BY lnq.ordre_reponse ASC) AS reponses,  
-		GROUP_CONCAT(DISTINCT(r.id)ORDER BY lnq.ordre_reponse ASC) AS reponses_id,
+    $req = $bdd->prepare('SELECT Quiz.id AS id, Quiz.nom AS titre, q.contenu AS question, GROUP_CONCAT(DISTINCT(r.contenu) ORDER BY lnq.ordre_reponse ASC) AS reponses,   
+    GROUP_CONCAT(DISTINCT(r.id)ORDER BY lnq.ordre_reponse ASC) AS reponses_id,
 		COUNT(DISTINCT r.id) AS nb_reponses, 
         q.id as question_id,
-        q.type AS question_type
+        q.type AS question_type,
+        (SELECT COUNT(id) FROM Question WHERE id_quiz = :quiz)
        	FROM lnk_Question_Reponse AS lnk
         INNER JOIN Question AS q 
         	ON q.id = lnk.id_question 
