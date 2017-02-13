@@ -76,14 +76,11 @@ function getBonnesReponses($idQuiz)
     return $donnees;
 }
 
-function add_quizToUser($idQuiz, $idUser, $reponse)
+function add_quizToUser(array $userResult)
 {
+    $query = insert_values('lnk_Utilisateur_Quiz', $userResult);
     global $bdd;
-    $req = $bdd->prepare('INSERT INTO lnk_Utilisateur_Quiz(id_utilisateur, id_quiz, reponse)
-                            VALUES(:idUser, :idQuiz, :reponse)');
-    $req->bindParam(':idUser', $idUser, PDO::PARAM_INT);
-    $req->bindParam(':idQuiz', $idQuiz, PDO::PARAM_INT);
-    $req->bindParam(':reponse', $reponse, PDO::PARAM_STR);
+    $req = $bdd->prepare($query);
     $req->execute();
     $req->closeCursor();
 }

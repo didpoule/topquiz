@@ -45,10 +45,9 @@ if (isset($_POST['envoyer'])) {
                 }
             }
                 if (!in_array($quiz_id, $_SESSION['quiz_done'])) {
-                    foreach($repChoisies['reponse']['contenu'] as $v) {
-                        add_quizToUser($quiz_id, $_SESSION['user_id'], $v);
-                        update_user_quiz();
-                    }
+                    $userResult = ur_setArray($repChoisies, $quiz_id, $nbQuestions);
+                    add_quizToUser($userResult);
+                    update_user_quiz();
                 }
             require_once('view/quiz_result.php');
         }
