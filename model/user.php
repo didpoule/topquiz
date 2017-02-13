@@ -14,7 +14,7 @@ function createUser($login, $password, $pseudo)
 function checkLogin($login, $password)
 {
     global $bdd;
-    $req = $bdd->prepare('SELECT true FROM Utilisateur WHERE login = :login AND password = :password');
+    $req = $bdd->prepare('SELECT TRUE FROM Utilisateur WHERE login = :login AND password = :password');
     $req->bindParam(':login', $login, PDO::PARAM_STR);
     $req->bindParam(':password', $password, PDO::PARAM_STR);
     $req->execute();
@@ -51,7 +51,7 @@ function getUserQuiz($id)
     $req = $bdd->prepare('SELECT u.id AS id_utilisateur, 
                                 GROUP_CONCAT(DISTINCT(Quiz.id) ORDER BY Quiz.id) AS id_quiz, 
                                 GROUP_CONCAT(DISTINCT(Quiz.nom) ORDER BY Quiz.id) AS titre,
-                                COUNT(DISTINCT(Quiz.id)) as nombre  
+                                COUNT(DISTINCT(Quiz.id)) AS nombre  
                                 FROM Utilisateur AS u
                                   LEFT JOIN lnk_Utilisateur_Quiz AS luq 
                                     ON u.id = luq.id_utilisateur

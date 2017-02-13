@@ -4,7 +4,7 @@ if (isset($_GET['quiz']) && !isset($_POST['envoyer'])) {
     $quiz_id = (int)$_GET['quiz'];
     $quiz = getQuiz($quiz_id);
     $quiz = setQuizArray($quiz);
-    if(!$quiz) {
+    if (!$quiz) {
         $msg = 'Ce quiz n\'existe pas';
         include 'view/404.php';
         exit;
@@ -44,11 +44,11 @@ if (isset($_POST['envoyer'])) {
                     $repChoisies['reponse']['id'][$key] = $value['reponse_id'];
                 }
             }
-                if (!in_array($quiz_id, $_SESSION['quiz_done'])) {
-                    $userResult = ur_setArray($repChoisies, $quiz_id, $nbQuestions);
-                    add_quizToUser($userResult);
-                    update_user_quiz();
-                }
+            if (!in_array($quiz_id, $_SESSION['quiz_done'])) {
+                $userResult = ur_setArray($repChoisies, $quiz_id, $nbQuestions);
+                add_quizToUser($userResult);
+                update_user_quiz();
+            }
             require_once('view/quiz_result.php');
         }
     } else {

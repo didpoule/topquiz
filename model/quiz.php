@@ -10,7 +10,7 @@ function getQuiz($id)
     $req = $bdd->prepare('SELECT Quiz.id AS id, Quiz.nom AS titre, q.contenu AS question, GROUP_CONCAT(DISTINCT(r.contenu) ORDER BY lnq.ordre_reponse ASC) AS reponses,   
     GROUP_CONCAT(DISTINCT(r.id)ORDER BY lnq.ordre_reponse ASC) AS reponses_id,
 		COUNT(DISTINCT r.id) AS nb_reponses, 
-        q.id as question_id,
+        q.id AS question_id,
         q.type AS question_type,
         (SELECT COUNT(id) FROM Question WHERE id_quiz = :quiz)
        	FROM lnk_Question_Reponse AS lnk
@@ -40,7 +40,7 @@ function getQuiz($id)
 function getRepId($reponses)
 {
     $where = setOrWhere('r.contenu', $reponses);
-    $query = 'SELECT r.id_question,  GROUP_CONCAT(r.id ORDER BY r.id) AS reponse_id FROM Reponse as r ';
+    $query = 'SELECT r.id_question,  GROUP_CONCAT(r.id ORDER BY r.id) AS reponse_id FROM Reponse AS r ';
     $query .= $where;
     $query .= ' GROUP BY r.id_question';
     global $bdd;

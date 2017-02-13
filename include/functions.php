@@ -24,7 +24,7 @@ function setQuizArray($donnees)
         for ($i = 0; $i < $nbQuestions; $i++) {
             $quiz['question_' . $i]['question_contenu'] = $donnees[$i]['question'];
             $quiz['question_' . $i]['question_id'] = $donnees[$i]['question_id'];
-            $quiz['question_' .$i]['nombre_reponses'] = $donnees[$i]['nb_reponses'];
+            $quiz['question_' . $i]['nombre_reponses'] = $donnees[$i]['nb_reponses'];
             $quiz['question_' . $i]['question_type'] = $donnees[$i]['question_type'];
             for ($j = 0; $j < $nbReponses[$i]; $j++) {
                 $quiz['question_' . $i]['reponses_contenu'][$j] = $reponse[$i]['contenu'][$j];
@@ -74,12 +74,12 @@ function quizScore($nbQuestions, $userChoices, $correction)
     $bonneReponses = 0;
     for ($i = 0; $i < $nbQuestions; $i++) {
         if (is_array($userChoices['reponse']['contenu'][$i])) {
-            if($correction[$i]['type'] == 1) {
+            if ($correction[$i]['type'] == 1) {
                 $sort = true;
             } else {
                 $sort = false;
             }
-            if(array_compare($userChoices['reponse']['contenu'][$i], $correction[$i]['contenu'], $sort)) {
+            if (array_compare($userChoices['reponse']['contenu'][$i], $correction[$i]['contenu'], $sort)) {
                 $bonneReponses++;
             }
         } else {
@@ -109,10 +109,10 @@ function setOrWhere($fieldName, $values)
     $j = $count - 1;
     for ($i = 0; $i < $count; $i++) {
         if (is_array($values[$i])) {
-            foreach($values[$i] as  $k => $v) {
+            foreach ($values[$i] as $k => $v) {
                 $v = str_replace('\'', '\\\'', $v);
                 $result .= '\'' . $v . '\'';
-                if($k < count($values[$i]) - 1) {
+                if ($k < count($values[$i]) - 1) {
                     $result .= $suffixe . $prefixe;
                 } else {
                     break;
@@ -146,36 +146,36 @@ function insert_values($tableName, array $values)
     $base = "INSERT INTO $tableName(";
     $query = $base;
 
-    for($i = 0; $i < $nFields; $i++) {
+    for ($i = 0; $i < $nFields; $i++) {
 
         $query .= $fieldNames[$i];
-        if($i < $nFields -1) {
+        if ($i < $nFields - 1) {
             $query .= $separator;
         } else {
             $query .= ') ';
         }
     }
     $query .= 'VALUES(';
-    for($i = 0; $i < $nFields; $i++) {
+    for ($i = 0; $i < $nFields; $i++) {
         $query .= str_addQuotes($values[$fieldNames[$i]][0]);
-        if($i < $nFields -1) {
+        if ($i < $nFields - 1) {
             $query .= $separator;
         } else {
             $query .= ') ';
         }
     }
-    if($nValues > 1) {
+    if ($nValues > 1) {
         $query .= $separator . ' (';
-        for($i = 1; $i < $nValues; $i++) {
-            for($j = 0; $j < $nFields; $j++) {
+        for ($i = 1; $i < $nValues; $i++) {
+            for ($j = 0; $j < $nFields; $j++) {
                 $query .= str_addQuotes($values[$fieldNames[$j]][$i]);
-                if($j < $nFields -1) {
+                if ($j < $nFields - 1) {
                     $query .= $separator;
                 } else {
                     $query .= ') ';
                 }
             }
-            if($i < $nValues - 1) {
+            if ($i < $nValues - 1) {
                 $query .= $separator . ' (';
             } else {
                 $query .= ';';
@@ -194,9 +194,8 @@ function insert_values($tableName, array $values)
  */
 function answer_status($quiz, $repChoisies, $correction, $typeQuestion, $nReponse)
 {
-    if(is_array($repChoisies))
-    {
-        if($typeQuestion == 1) {
+    if (is_array($repChoisies)) {
+        if ($typeQuestion == 1) {
             // Si la réponse à afficher est une bonne réponse
             if ((in_array($quiz, $repChoisies) && in_array($quiz, $correction)) ||
                 (!in_array($quiz, $repChoisies) && in_array($quiz, $correction))
@@ -207,14 +206,14 @@ function answer_status($quiz, $repChoisies, $correction, $typeQuestion, $nRepons
             } else {
                 return 'neutre';
             }
-        } elseif($typeQuestion == 3) {
-            if($repChoisies[$nReponse] == $correction[$nReponse]) {
+        } elseif ($typeQuestion == 3) {
+            if ($repChoisies[$nReponse] == $correction[$nReponse]) {
                 return 'right';
             } else {
                 return 'corrected';
             }
         }
-    } elseif($typeQuestion != 2) {
+    } elseif ($typeQuestion != 2) {
         if (($quiz === $repChoisies) &&
             $repChoisies == $correction ||
             (($correction == $quiz) &&
@@ -228,11 +227,11 @@ function answer_status($quiz, $repChoisies, $correction, $typeQuestion, $nRepons
         } else {
             return 'neutre';
         }
-    } elseif($typeQuestion == 2) {
-        if($repChoisies == $correction) {
-                return 'right';
+    } elseif ($typeQuestion == 2) {
+        if ($repChoisies == $correction) {
+            return 'right';
         } else {
-                return 'corrected';
+            return 'corrected';
         }
     }
 }
@@ -245,7 +244,7 @@ function answer_status($quiz, $repChoisies, $correction, $typeQuestion, $nRepons
  */
 function array_compare(array $array1, array $array2, $sort = false)
 {
-    if($sort) {
+    if ($sort) {
         sort($array1);
         sort($array2);
     }
@@ -265,9 +264,10 @@ function closePopup()
                 </form>';
 }
 
-function set_correction ($idQuiz) {
+function set_correction($idQuiz)
+{
     $correction = getBonnesReponses($idQuiz);
-    if($correction) {
+    if ($correction) {
         foreach ($correction as $k => $v) {
             if ($correction[$k]['type'] == 1 || $correction[$k]['type'] == 3) {
                 $correction[$k]['contenu'] = explode(',', $v['contenu']);
@@ -299,11 +299,11 @@ function ur_setArray(array $donnees, $quizId, $nbQuestions)
 {
     $userResult = array();
     $userId = $_SESSION['user_id'];
-    for($i = 0; $i < $nbQuestions; $i++) {
+    for ($i = 0; $i < $nbQuestions; $i++) {
         $userResult['id_utilisateur'][$i] = $userId;
         $userResult['id_quiz'][$i] = $quizId;
         $userResult['id_question'][$i] = $donnees['question_id'][$i];
-        if(!is_array($donnees['reponse']['contenu'][$i])) {
+        if (!is_array($donnees['reponse']['contenu'][$i])) {
             $userResult['reponse'][$i] = $donnees['reponse']['contenu'][$i];
         } else {
             $userResult['reponse'][$i] = implode(',', $donnees['reponse']['contenu'][$i]);
