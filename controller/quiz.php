@@ -9,6 +9,11 @@ if (isset($_GET['quiz']) && !isset($_POST['envoyer'])) {
         include 'view/404.php';
         exit;
     } else {
+        if (!$_SESSION['is_connected']) {
+            $msg = 'Vous devez être connecté pour faire un quiz';
+            $disabledForm = TRUE;
+            require_once('view/quiz.php');
+        }
         require_once('view/quiz.php');
     }
 }
@@ -52,7 +57,7 @@ if (isset($_POST['envoyer'])) {
             require_once('view/quiz_result.php');
         }
     } else {
-        $msg = 'Vous devez être connecté pour faire un quiz';
-        require_once('view/quiz.php');
+        unset($_POST['envoyer']);
+        header('Location: ' . $_SERVER['HTTP_REFERER']);
     }
 }
