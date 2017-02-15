@@ -38,7 +38,7 @@ if (isset($_POST['envoyer'])) {
             $correction = set_correction($quiz_id);
             for ($question = 0; $question < $nbQuestions; $question++) {
                 $repChoisies['question_id'][$question] = $_POST['question_id_' . $question];
-                $repChoisies['reponse']['contenu'][$question] = $_POST['question_' . $question];
+                $repChoisies['reponse']['contenu'][$question] = htmlspecialchars($_POST['question_' . $question]);
             }
             $score = quizScore($nbQuestions, $repChoisies, $correction);
             $idRep = getRepId($repChoisies['reponse']['contenu']);
