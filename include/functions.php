@@ -49,9 +49,22 @@ function selectedRadio($nomGroupe, $nbGroupes)
     $j = 0;
     for ($i = 0; $i < $nbGroupes; $i++) {
         $fieldName = $nomGroupe . '_' . $i;
-        if (!isset($_POST[$fieldName])) {
-            $error[$j] = $fieldName;
-            $j++;
+        if(is_array($_POST[$fieldName])) {
+            foreach($_POST[$fieldName] as $v) {
+                if(empty($v)) {
+                    if(!in_array($fieldName, $error)) {
+                        $error[$j] = $fieldName;
+                        $j++;
+                    } else {
+                        continue;
+                    }
+                }
+            }
+        } else {
+            if (!isset($_POST[$fieldName]) || empty($_POST[$fieldName])) {
+                $error[$j] = $fieldName;
+                $j++;
+            }
         }
     }
             return $error;
