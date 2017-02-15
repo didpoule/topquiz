@@ -65,6 +65,7 @@ if (isset($_POST['envoyer'])) {
                 }
             }
             if (!in_array($quiz_id, $_SESSION['quiz_done'])) {
+                require_once 'include/user_functions.php';
                 $userResult = ur_setArray($repChoisies, $quiz_id, $nbQuestions);
                 add_quizToUser($userResult);
                 update_user_quiz();

@@ -17,16 +17,6 @@ function decrypt($encrypted_string, $encryption_key)
     return $decrypted_string;
 }
 
-function update_user_quiz()
-{
-    require_once 'model/user.php';
-    $quizDone = getUserQuiz($_SESSION['user_id']);
-    if (!is_array($quizDone['id_quiz'])) {
-        $_SESSION['quiz_done'] = explode(',', $quizDone['id_quiz']);
-    } else {
-        $_SESSION['quiz_done'] = $quizDone['id_quiz'];
-    }
-}
 
 function disconnect_user()
 {
@@ -60,4 +50,39 @@ function set_view_Result($quizId)
         }
     }
     return $result;
+}
+
+function update_user_quiz()
+{
+    require_once 'model/user.php';
+    $quizDone = getUserQuiz($_SESSION['user_id']);
+    if (!is_array($quizDone['id_quiz'])) {
+        $_SESSION['quiz_done'] = explode(',', $quizDone['id_quiz']);
+    } else {
+        $_SESSION['quiz_done'] = $quizDone['id_quiz'];
+    }
+}
+
+/**
+ * @param array $donnees // contents user answers to format
+ * @param $quizId // id of quiz
+ * @param $nbQuestions // number of questions
+ * @return array // formatted array
+ * This function reformats user answers array to be able to be inserted in DB
+ */
+function ur_setArray(array $donnees, $quizId, $nbQuestions)
+{
+    $userResult = array();
+    $userId = $_SESSION['user_id'];
+    for ($i = 0; $i < $nbQuestions; $i++) {
+        $userResult['id_utilisateur'][$i] = $userId;
+        $userResult['id_quiz'][$i] = $quizId;
+        $userResult['id_question'][$i] = $donnees['question_id'][$i];
+        if (!is_array($donnees['reponse']['contenu'][$i])) {
+            $userResult['reponse'][$i] = $donnees['reponse']['contenu'][$i];
+        } else {
+            $userResult['reponse'][$i] = implode(',', $donnees['reponse']['contenu'][$i]);
+        }
+    }
+    return $userResult;
 }
