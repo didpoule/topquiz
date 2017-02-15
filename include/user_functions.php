@@ -39,6 +39,8 @@ function init_user()
     $_SESSION['user_id'] = 0;
     $_SESSION['user_pseudo'] = 0;
     $_SESSION['quiz_done'] = array();
+    $_SESSION['error'] = 0;
+    $_SESSION['data_post'] = 0;
     $_SESSION['is_connected'] = 0;
 }
 

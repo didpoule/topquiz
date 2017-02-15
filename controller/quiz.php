@@ -12,7 +12,11 @@ if (isset($_GET['quiz']) && !isset($_POST['envoyer'])) {
         if (!$_SESSION['is_connected']) {
             $msg = 'Vous devez être connecté pour faire un quiz';
             $disabledForm = TRUE;
-            require_once('view/quiz.php');
+        } else if(!empty($_SESSION['error'])) {
+            $msg = 'Vous n\'avez pas répondu à toute les questions !';
+            $error = unserialize($_SESSION['error']);
+            $_SESSION['error'] = array();
+            $dataPost = unserialize($_SESSION['data_post']);
         }
         require_once('view/quiz.php');
     }
@@ -30,9 +34,13 @@ if (isset($_POST['envoyer'])) {
             $nbQuestions = $quiz['quiz_infos']['nombre_questions'];
             if ($quiz_id == $_GET['quiz']) {
                 $error = selectedRadio('question', $nbQuestions);
+                if(!empty($error)) {
+                    $_SESSION['error'] = serialize($error);
+                }
             }
         }
-        if ($error) {
+        if (!empty($_SESSION['error'])) {
+            $_SESSION['data_post'] = serialize($_POST);
             header('Location: ' . $_SERVER['HTTP_REFERER']);
         } else {
             $correction = set_correction($quiz_id);
