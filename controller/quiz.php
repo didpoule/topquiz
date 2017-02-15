@@ -42,8 +42,8 @@ if (isset($_POST['envoyer'])) {
                 {
                     $repChoisies['reponse']['contenu'][$question] = htmlspecialchars($_POST['question_' . $question]);
                 } else {
-                    foreach($_POST['question_' . $question] as $v) {
-                        $repChoisies['reponse']['contenu'][$question] = htmlspecialchars($v);
+                    foreach($_POST['question_' . $question] as $k => $v) {
+                        $repChoisies['reponse']['contenu'][$question][$k] = htmlspecialchars($v);
                     }
                 }
             }
