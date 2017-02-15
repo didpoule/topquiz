@@ -18,11 +18,11 @@ if (isset($_GET['quiz']) && !isset($_POST['envoyer'])) {
     }
 }
 if (isset($_POST['envoyer'])) {
-    $quiz_id = (int)$_POST['id_quiz'];
-    $quiz = getQuiz($quiz_id);
-    $quiz = setQuizArray($quiz);
-    $nbQuestions = $quiz['quiz_infos']['nombre_questions'];
     if ($_SESSION['is_connected']) {
+        $quiz_id = (int)$_POST['id_quiz'];
+        $quiz = getQuiz($quiz_id);
+        $quiz = setQuizArray($quiz);
+        $nbQuestions = $quiz['quiz_infos']['nombre_questions'];
         if (isset($_POST['id_quiz']) && isset($_GET['quiz'])) {
             $quiz_id = (int)$_POST['id_quiz'];
             $quiz = getQuiz($quiz_id);
