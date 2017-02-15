@@ -72,6 +72,8 @@
                             echo implode(',', $quiz['question_' . $question]['reponses_contenu']) . '<br />';
                         }
                         ?>
+                    </p>
+                    <p>
                         <label for="<?= $question . '_' . $j ?>"><?= $j + 1 ?></label>
                         <input type="text" name="question_<?= $question ?>[]"
                                id="<?= $question . '_' . $j ?>"
