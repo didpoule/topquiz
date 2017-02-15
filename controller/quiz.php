@@ -28,14 +28,14 @@ if (isset($_POST['envoyer'])) {
             $quiz = getQuiz($quiz_id);
             $quiz = setQuizArray($quiz);
             $nbQuestions = $quiz['quiz_infos']['nombre_questions'];
-            if ($_POST['id_quiz'] === $_GET['quiz']) {
+            if ($quiz_id === $_GET['quiz']) {
                 $error = selectedRadio('question', $nbQuestions);
             }
         }
         if ($error) {
             header('Location: ' . $_SERVER['HTTP_REFERER']);
         } else {
-            $correction = set_correction($_POST['id_quiz']);
+            $correction = set_correction($quiz_id);
             for ($question = 0; $question < $nbQuestions; $question++) {
                 $repChoisies['question_id'][$question] = $_POST['question_id_' . $question];
                 $repChoisies['reponse']['contenu'][$question] = $_POST['question_' . $question];
