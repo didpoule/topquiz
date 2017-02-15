@@ -28,7 +28,7 @@ if (isset($_POST['envoyer'])) {
             $quiz = getQuiz($quiz_id);
             $quiz = setQuizArray($quiz);
             $nbQuestions = $quiz['quiz_infos']['nombre_questions'];
-            if ($quiz_id === $_GET['quiz']) {
+            if ($quiz_id == $_GET['quiz']) {
                 $error = selectedRadio('question', $nbQuestions);
             }
         }
@@ -38,7 +38,14 @@ if (isset($_POST['envoyer'])) {
             $correction = set_correction($quiz_id);
             for ($question = 0; $question < $nbQuestions; $question++) {
                 $repChoisies['question_id'][$question] = $_POST['question_id_' . $question];
-                $repChoisies['reponse']['contenu'][$question] = htmlspecialchars($_POST['question_' . $question]);
+                if(!is_array($_POST['question_' . $question]))
+                {
+                    $repChoisies['reponse']['contenu'][$question] = htmlspecialchars($_POST['question_' . $question]);
+                } else {
+                    foreach($_POST['question_' . $question] as $v) {
+                        $repChoisies['reponse']['contenu'][$question] = htmlspecialchars($v);
+                    }
+                }
             }
             $score = quizScore($nbQuestions, $repChoisies, $correction);
             $idRep = getRepId($repChoisies['reponse']['contenu']);
