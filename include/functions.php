@@ -54,11 +54,7 @@ function selectedRadio($nomGroupe, $nbGroupes)
             $j++;
         }
     }
-    if ($error) {
-        return $error;
-    } else {
-        return false;
-    }
+            return $error;
 }
 
 /**
