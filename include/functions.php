@@ -11,10 +11,10 @@ function selectedRadio($nomGroupe, $nbGroupes)
     $j = 0;
     for ($i = 0; $i < $nbGroupes; $i++) {
         $fieldName = $nomGroupe . '_' . $i;
-        if(is_array($_POST[$fieldName])) {
-            foreach($_POST[$fieldName] as $v) {
-                if(empty($v)) {
-                    if(!in_array($fieldName, $error)) {
+        if (is_array($_POST[$fieldName])) {
+            foreach ($_POST[$fieldName] as $v) {
+                if (empty($v)) {
+                    if (!in_array($fieldName, $error)) {
                         $error[$j] = $fieldName;
                         $j++;
                     } else {
@@ -29,7 +29,7 @@ function selectedRadio($nomGroupe, $nbGroupes)
             }
         }
     }
-            return $error;
+    return $error;
 }
 
 /**
@@ -165,3 +165,28 @@ function str_addQuotes($text)
     return $text;
 }
 
+// Géneration de token
+function generer_token($nom = '')
+{
+    $token = uniqid(rand(), true);
+    $_SESSION[$nom . '_token'] = $token;
+    $_SESSION[$nom . '_token_time'] = time();
+    return $token;
+}
+
+// Contrôle de token
+function verifier_token($temps, $referer, $nom = '')
+{
+    if (isset($_SESSION[$nom . '_token']) && isset($_SESSION[$nom . '_token_time']) && isset($_POST['token'])) {
+        if ($_SESSION[$nom . '_token'] == $_POST['token'] &&
+            $_SESSION[$nom . '_token_time'] >= (time() - $temps) &&
+            $_SERVER['HTTP_REFERER'] == $referer
+        ) {
+            return true;
+        } else {
+            return false;
+        }
+    } else {
+        return false;
+    }
+}

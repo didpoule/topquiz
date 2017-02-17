@@ -3,7 +3,6 @@ require_once('modules/quiz/model/quiz.php');
 if (isset($_GET['quiz']) && !isset($_POST['envoyer'])) {
     $quiz_id = (int)$_GET['quiz'];
     $quiz = getQuiz($quiz_id);
-    $quiz = setQuizArray($quiz);
     if (!$quiz) {
         $msg = 'Ce quiz n\'existe pas';
         include 'view/404.php';
@@ -18,11 +17,13 @@ if (isset($_GET['quiz']) && !isset($_POST['envoyer'])) {
             $_SESSION['error'] = array();
             $dataPost = unserialize($_SESSION['data_post']);
         }
+        $quiz = setQuizArray($quiz);
+        $token = generer_token('quiz');
         require_once('modules/quiz/view/quiz.php');
     }
 }
 if (isset($_POST['envoyer'])) {
-    if ($_SESSION['is_connected']) {
+    if ($_SESSION['is_connected'] && verifier_token(600, $_SERVER['HTTP_REFERER'], 'quiz')) {
         $quiz_id = (int)$_POST['id_quiz'];
         $quiz = getQuiz($quiz_id);
         $quiz = setQuizArray($quiz);
@@ -65,9 +66,9 @@ if (isset($_POST['envoyer'])) {
                 }
             }
             if (!in_array($quiz_id, $_SESSION['quiz_done'])) {
-                $userResult = ur_setArray($repChoisies, $quiz_id, $nbQuestions);
+                $userResult = user_setArray($repChoisies, $quiz_id, $nbQuestions);
                 add_quizToUser($userResult);
-                update_user_quiz();
+                user_update_quiz();
             }
             require_once('modules/quiz/view/quiz_result.php');
         }

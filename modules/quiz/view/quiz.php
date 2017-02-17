@@ -26,7 +26,6 @@
                        value="<?= $quiz['question_' . $question]['question_type'] ?>"/>
             </div>
             <div class="reponses_quiz">
-
             <?php
             if(isset($error)) {
                 if (in_array(('question_' . $question), $error)) {
@@ -126,6 +125,7 @@
         }
         ?>
         <input type="hidden" name="id_quiz" value="<?= $quiz['quiz_infos']['id'] ?>">
+        <input type="hidden" name="token" value="<?= $token ?>">
         <input type="submit" name="envoyer">
     </form>
 </div>

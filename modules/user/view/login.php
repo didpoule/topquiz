@@ -14,6 +14,7 @@
                 Login : <input type='text' name='login'><br/>
                 Mot de passe : <input type='password' name='password'><br/><br/>
                 <input type='submit' name='connexion' value='connexion'>
+                <input type="hidden" name='token' value="<?= $token ?>">
             </p>
             <?php if(isset($msg)) {
                 get_msg($msg);
