@@ -1,5 +1,5 @@
 <?php
-require_once('model/quiz.php');
+require_once('modules/quiz/model/quiz.php');
 if (isset($_GET['quiz']) && !isset($_POST['envoyer'])) {
     $quiz_id = (int)$_GET['quiz'];
     $quiz = getQuiz($quiz_id);
@@ -18,7 +18,7 @@ if (isset($_GET['quiz']) && !isset($_POST['envoyer'])) {
             $_SESSION['error'] = array();
             $dataPost = unserialize($_SESSION['data_post']);
         }
-        require_once('view/quiz.php');
+        require_once('modules/quiz/view/quiz.php');
     }
 }
 if (isset($_POST['envoyer'])) {
@@ -65,12 +65,11 @@ if (isset($_POST['envoyer'])) {
                 }
             }
             if (!in_array($quiz_id, $_SESSION['quiz_done'])) {
-                require_once 'include/user_functions.php';
                 $userResult = ur_setArray($repChoisies, $quiz_id, $nbQuestions);
                 add_quizToUser($userResult);
                 update_user_quiz();
             }
-            require_once('view/quiz_result.php');
+            require_once('modules/quiz/view/quiz_result.php');
         }
     } else {
         unset($_POST['envoyer']);

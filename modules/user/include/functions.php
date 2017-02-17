@@ -54,7 +54,7 @@ function set_view_Result($quizId)
 
 function update_user_quiz()
 {
-    require_once 'model/user.php';
+    require_once 'modules/user/model/user.php';
     $quizDone = getUserQuiz($_SESSION['user_id']);
     if (!is_array($quizDone['id_quiz'])) {
         $_SESSION['quiz_done'] = explode(',', $quizDone['id_quiz']);

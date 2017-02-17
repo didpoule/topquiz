@@ -7,6 +7,7 @@
 <body>
 <div id="corps_page">
     <?php include_once 'view/menu.php'; ?>
+    <h1>Bienvenue sur TopQuiz ! </h1>
     <div class="liste_quiz">
         <?php
         foreach ($listeQuiz as $quiz) { ?>
