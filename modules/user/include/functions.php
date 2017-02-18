@@ -39,18 +39,7 @@ function user_init()
 function set_view_Result($quizId)
 {
     $result = getQuizResult($_SESSION['user_id'], $quizId);
-    $compteur = 0;
-    if ($result) {
-        foreach ($result as $v) {
-            if ($v['type'] == 1 || $v['type'] == 3) {
-                $result['reponse']['contenu'][$compteur] = explode(',', $v['reponse']);
-            } else {
-                $result['reponse']['contenu'][$compteur] = $v['reponse'];
-            }
-            unset($result[$compteur]);
-            $compteur++;
-        }
-    }
+    $result = unserialize($result['reponses']);
     return $result;
 }
 
@@ -63,30 +52,6 @@ function user_update_quiz()
     } else {
         $_SESSION['quiz_done'] = $quizDone['id_quiz'];
     }
-}
-
-/**
- * @param array $donnees // contents user answers to format
- * @param $quizId // id of quiz
- * @param $nbQuestions // number of questions
- * @return array // formatted array
- * This function reformats user answers array to be able to be inserted in DB
- */
-function user_setArray(array $donnees, $quizId, $nbQuestions)
-{
-    $userResult = array();
-    $userId = $_SESSION['user_id'];
-    for ($i = 0; $i < $nbQuestions; $i++) {
-        $userResult['id_utilisateur'][$i] = $userId;
-        $userResult['id_quiz'][$i] = $quizId;
-        $userResult['id_question'][$i] = $donnees['question_id'][$i];
-        if (!is_array($donnees['reponse']['contenu'][$i])) {
-            $userResult['reponse'][$i] = $donnees['reponse']['contenu'][$i];
-        } else {
-            $userResult['reponse'][$i] = implode(',', $donnees['reponse']['contenu'][$i]);
-        }
-    }
-    return $userResult;
 }
 
 function user_connect()
@@ -136,6 +101,7 @@ function user_history()
             $history['id_quiz'] = array(0 => $history['id_quiz']);
             $history['titre'] = array(0 => $history['titre']);
         }
+        $action = 'history';
         require_once 'modules/user/view/user.php';
     } else {
         header('Location: ?section=user&action=connexion');

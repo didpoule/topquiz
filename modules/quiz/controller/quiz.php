@@ -65,11 +65,9 @@ if (isset($_POST['envoyer'])) {
                     $repChoisies['reponse']['id'][$key] = $value['reponse_id'];
                 }
             }
-            if (!in_array($quiz_id, $_SESSION['quiz_done'])) {
-                $userResult = user_setArray($repChoisies, $quiz_id, $nbQuestions);
-                add_quizToUser($userResult);
+                $userResult = serialize($repChoisies);
+                add_quizToUser($quiz_id, $_SESSION['user_id'], $userResult);
                 user_update_quiz();
-            }
             require_once('modules/quiz/view/quiz_result.php');
         }
     } else {

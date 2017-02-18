@@ -77,11 +77,26 @@ function getBonnesReponses($idQuiz)
     return $donnees;
 }
 
-function add_quizToUser(array $userResult)
+function add_quizToUser($quizId, $userId, $reponses)
 {
-    $query = insert_values('lnk_Utilisateur_Quiz', $userResult);
     global $bdd;
-    $req = $bdd->prepare($query);
+    $req = $bdd->prepare('SELECT id FROM lnk_Utilisateur_Quiz WHERE id_quiz = :quiz_id AND id_utilisateur = :utilisateur_id');
+    $req->bindParam(':quiz_id', $quizId, PDO::PARAM_INT);
+    $req->bindParam(':utilisateur_id', $userId, PDO::PARAM_INT);
+    $req->execute();
+    $donnees = $req->fetch();
+    $rowId = $donnees['id'];
+    $req->closeCursor();
+    $req = $bdd->prepare('INSERT INTO lnk_Utilisateur_Quiz(id, id_utilisateur, id_quiz, reponses)
+                          VALUES(:row_id, :utilisateur_id, :quiz_id, :reponses) 
+                          ON DUPLICATE KEY UPDATE 
+                          id_utilisateur = :utilisateur_id,
+                          id_quiz = :quiz_id,
+                          reponses = :reponses');
+    $req->bindParam(':row_id', $rowId, PDO::PARAM_INT);
+    $req->bindParam(':utilisateur_id', $userId, PDO::PARAM_INT);
+    $req->bindParam(':quiz_id', $quizId, PDO::PARAM_INT);
+    $req->bindParam(':reponses', $reponses, PDO::PARAM_STR);
     $req->execute();
     $req->closeCursor();
 }

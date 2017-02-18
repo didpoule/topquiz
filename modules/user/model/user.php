@@ -66,18 +66,17 @@ function getUserQuiz($id)
     return $donnees;
 }
 
-function getQuizResult($idUser, $idQuiz)
+
+function getQuizResult($userId, $quizId)
 {
     global $bdd;
-    $req = $bdd->prepare('SELECT luq.reponse AS reponse,
-                          q.type AS type
+    $req = $bdd->prepare('SELECT luq.reponses AS reponses
                           FROM lnk_Utilisateur_Quiz AS luq
-                          INNER JOIN Question AS q ON q.id = luq.id_question
                           WHERE luq.id_utilisateur = :idUser AND luq.id_quiz = :idQuiz');
-    $req->bindParam(':idUser', $idUser, PDO::PARAM_INT);
-    $req->bindParam(':idQuiz', $idQuiz, PDO::PARAM_INT);
+    $req->bindParam(':idUser', $userId, PDO::PARAM_INT);
+    $req->bindParam(':idQuiz', $quizId  , PDO::PARAM_INT);
     $req->execute();
-    $donnees = $req->fetchAll();
+    $donnees = $req->fetch();
     $req->closeCursor();
     return $donnees;
 }

@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Client :  localhost
--- Généré le :  Lun 13 Février 2017 à 01:42
+-- Généré le :  Sam 18 Février 2017 à 12:42
 -- Version du serveur :  5.7.17-0ubuntu0.16.04.1
 -- Version de PHP :  7.0.13-0ubuntu0.16.04.1
 
@@ -103,22 +103,19 @@ INSERT INTO `lnk_Question_Reponse` (`id_question`, `id_reponse`, `reponse_juste`
 --
 
 CREATE TABLE `lnk_Utilisateur_Quiz` (
+  `id` int(10) UNSIGNED NOT NULL,
   `id_utilisateur` int(10) UNSIGNED NOT NULL,
   `id_quiz` int(10) UNSIGNED NOT NULL,
-  `id_question` int(10) UNSIGNED NOT NULL,
-  `reponse` varchar(255) NOT NULL
+  `reponses` text NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
 -- Contenu de la table `lnk_Utilisateur_Quiz`
 --
 
-INSERT INTO `lnk_Utilisateur_Quiz` (`id_utilisateur`, `id_quiz`, `id_question`, `reponse`) VALUES
-(1, 1, 1, 'Au niveau 12'),
-(1, 1, 2, 'Niantic'),
-(1, 1, 13, '10km,5km,2km'),
-(1, 1, 14, '151'),
-(1, 1, 15, 'bulbizarre,herbizarre,florizarre');
+INSERT INTO `lnk_Utilisateur_Quiz` (`id`, `id_utilisateur`, `id_quiz`, `reponses`) VALUES
+(4, 1, 2, 'a:2:{s:11:"question_id";a:10:{i:0;s:1:"3";i:1;s:1:"4";i:2;s:1:"5";i:3;s:1:"6";i:4;s:1:"7";i:5;s:1:"8";i:6;s:1:"9";i:7;s:2:"10";i:8;s:2:"11";i:9;s:2:"12";}s:7:"reponse";a:2:{s:7:"contenu";a:10:{i:0;s:10:"un gorille";i:1;s:12:"jambe droite";i:2;s:5:"l\'eau";i:3;s:11:"des épées";i:4;s:5:"kirua";i:5;s:16:"sword art online";i:6;s:9:"un dragon";i:7;s:26:"renversé par un véhicule";i:8;s:10:"la cuisine";i:9;s:9:"le karuta";}s:2:"id";a:10:{i:0;s:2:"12";i:1;s:2:"16";i:2;s:2:"19";i:3;s:2:"22";i:4;s:2:"28";i:5;s:2:"30";i:6;s:2:"35";i:7;s:2:"38";i:8;s:2:"41";i:9;s:2:"45";}}}'),
+(5, 1, 1, 'a:2:{s:11:"question_id";a:5:{i:0;s:1:"1";i:1;s:1:"2";i:2;s:2:"13";i:3;s:2:"14";i:4;s:2:"15";}s:7:"reponse";a:2:{s:7:"contenu";a:5:{i:0;s:12:"Au niveau 20";i:1;s:7:"Ubisoft";i:2;a:1:{i:0;s:4:"10km";}i:3;s:2:"14";i:4;a:3:{i:0;s:10:"bulbizarre";i:1;s:10:"florizarre";i:2;s:10:"herbizarre";}}s:2:"id";a:3:{i:0;s:1:"3";i:1;s:1:"8";i:2;a:3:{i:0;s:2:"56";i:1;s:2:"57";i:2;s:2:"58";}}}}');
 
 -- --------------------------------------------------------
 
@@ -283,8 +280,8 @@ ALTER TABLE `lnk_Question_Reponse`
 -- Index pour la table `lnk_Utilisateur_Quiz`
 --
 ALTER TABLE `lnk_Utilisateur_Quiz`
+  ADD UNIQUE KEY `ind_id` (`id`),
   ADD KEY `fk_id_utilisateur` (`id_utilisateur`),
-  ADD KEY `id_question` (`id_question`),
   ADD KEY `fk_id_quiz_utilisateur` (`id_quiz`);
 
 --
@@ -318,6 +315,11 @@ ALTER TABLE `Utilisateur`
 -- AUTO_INCREMENT pour les tables exportées
 --
 
+--
+-- AUTO_INCREMENT pour la table `lnk_Utilisateur_Quiz`
+--
+ALTER TABLE `lnk_Utilisateur_Quiz`
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 --
 -- AUTO_INCREMENT pour la table `Question`
 --
@@ -353,7 +355,6 @@ ALTER TABLE `lnk_Question_Reponse`
 -- Contraintes pour la table `lnk_Utilisateur_Quiz`
 --
 ALTER TABLE `lnk_Utilisateur_Quiz`
-  ADD CONSTRAINT `fk_id_question_utilisateur` FOREIGN KEY (`id_question`) REFERENCES `Question` (`id`),
   ADD CONSTRAINT `fk_id_quiz_utilisateur` FOREIGN KEY (`id_quiz`) REFERENCES `Quiz` (`id`),
   ADD CONSTRAINT `fk_id_utilisateur` FOREIGN KEY (`id_utilisateur`) REFERENCES `Utilisateur` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
 
