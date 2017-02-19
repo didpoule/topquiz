@@ -21,9 +21,10 @@
 <?php
     if(isset($action)) {
         if ($action == 'history') {
+            echo '<h2>Voici les quiz que vous avez déjà réalisé: </h2>';
             $compteur = 0;
             foreach($history['titre'] as $v) {
-                echo '<h2><a href="?section=user&action=history&quiz=' .$history['id_quiz'][$compteur] . '">' . $v . '</a></h2><br />';
+                echo '<h3><a href="?section=user&action=history&quiz=' .$history['id_quiz'][$compteur] . '">' . $v . '</a></h3>';
             $compteur ++;
         }
     } elseif ($action == 'quizHistory') {
