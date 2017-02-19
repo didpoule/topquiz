@@ -190,3 +190,28 @@ function closePopup()
                     <input type="submit" name="ok" value="Fermer" />
                 </form>';
 }
+
+// Géneration de token
+function generer_token($nom = '')
+{
+    $token = uniqid(rand(), true);
+    $_SESSION[$nom . '_token'] = $token;
+    $_SESSION[$nom . '_token_time'] = time();
+    return $token;
+}
+// Contrôle de token
+function verifier_token($temps, $referer, $nom = '')
+{
+    if (isset($_SESSION[$nom . '_token']) && isset($_SESSION[$nom . '_token_time']) && isset($_POST['token'])) {
+        if ($_SESSION[$nom . '_token'] == $_POST['token'] &&
+            $_SESSION[$nom . '_token_time'] >= (time() - $temps) &&
+            $_SERVER['HTTP_REFERER'] == $referer
+        ) {
+            return true;
+        } else {
+            return false;
+        }
+    } else {
+        return false;
+    }
+}

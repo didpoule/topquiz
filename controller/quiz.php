@@ -13,6 +13,7 @@ if (isset($_GET['quiz']) && !isset($_POST['envoyer'])) {
         if (in_array($quiz_id, $_SESSION['quiz_done'])) {
             $msg = 'Vous avez déjà rempli ce quiz, vous ne pouvez pas le faire à nouveau !';
         }
+        $token = generer_token('quiz');
         require_once('view/quiz.php');
     }
 }
@@ -21,7 +22,7 @@ if (isset($_POST['envoyer'])) {
     $quiz = getQuiz($quiz_id);
     $quiz = setQuizArray($quiz);
     $nbQuestions = $quiz['quiz_infos']['nombre_questions'];
-    if ($_SESSION['is_connected']) {
+    if ($_SESSION['is_connected'] && verifier_token(600, $_SERVER['HTTP_REFERER'], 'quiz')) {
         if (!in_array($quiz_id, $_SESSION['quiz_done'])) {
             if (isset($_POST['id_quiz']) && isset($_GET['quiz'])) {
                 $quiz_id = (int)$_POST['id_quiz'];

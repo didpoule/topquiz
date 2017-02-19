@@ -13,6 +13,7 @@
             <p>
                 Login : <input type='text' name='login'><br/>
                 Mot de passe : <input type='password' name='password'><br/><br/>
+                <input type="hidden" name="token" value="<?= $token ?>">
                 <input type='submit' name='connexion' value='connexion'>
             </p>
             <?php if(isset($msg)) {
