@@ -12,7 +12,7 @@ if (isset($_GET['section'])) {
         header('HTTP/1.0 404 Not Found');
         include('view/404.php');
     }
-} elseif($_REQUEST != 'section') {
+} elseif(!empty($_REQUEST)) {
     $msg = '<h1>Page non trouvée</h1>';
     header('HTTP/1.0 404 Not Found');
     include('view/404.php');
