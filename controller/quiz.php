@@ -35,6 +35,7 @@ if (isset($_POST['envoyer'])) {
             }
         } else {
             header('Location: /?section=quiz&quiz=' . $quiz_id);
+            exit;
         }
         if ($error) {
             header('Location: ' . $_SERVER['HTTP_REFERER']);
@@ -58,8 +59,10 @@ if (isset($_POST['envoyer'])) {
                     $repChoisies['reponse']['id'][$key] = $value['reponse_id'];
                 }
             }
-            add_quizToUser($quiz_id, $_SESSION['user_id']);
-            update_user_quiz();
+            if(!in_array($quiz_id, $_SESSION['quiz_done'])) {
+                add_quizToUser($quiz_id, $_SESSION['user_id']);
+                update_user_quiz();
+            }
             require_once('view/quiz_result.php');
         }
     } else {
