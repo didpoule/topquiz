@@ -45,6 +45,7 @@ if (isset($_POST['envoyer'])) {
             header('Location: ' . $_SERVER['HTTP_REFERER']);
         } else {
             $correction = set_correction($quiz_id);
+            // Send answers in an array
             for ($question = 0; $question < $nbQuestions; $question++) {
                 $repChoisies['question_id'][$question] = $_POST['question_id_' . $question];
                 if(!is_array($_POST['question_' . $question]))
@@ -56,7 +57,10 @@ if (isset($_POST['envoyer'])) {
                     }
                 }
             }
+            // Checks answers selected with the correction
             $score = quizScore($nbQuestions, $repChoisies, $correction);
+
+            // Send answers id in user's answers array
             $idRep = getRepId($repChoisies['reponse']['contenu']);
             foreach ($idRep as $key => $value) {
                 if ($_POST['question_type_' . $key] == 1 || $_POST['question_type_' . $key] == 3) {
@@ -65,6 +69,7 @@ if (isset($_POST['envoyer'])) {
                     $repChoisies['reponse']['id'][$key] = $value['reponse_id'];
                 }
             }
+            // Save result in database and update current session
                 $userResult = serialize($repChoisies);
                 add_quizToUser($quiz_id, $_SESSION['user_id'], $userResult);
                 user_update_quiz();

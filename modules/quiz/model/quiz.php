@@ -77,6 +77,12 @@ function getBonnesReponses($idQuiz)
     return $donnees;
 }
 
+/**
+ * @param $quizId
+ * @param $userId
+ * @param $reponses
+ * Save user's quiz result array
+ */
 function add_quizToUser($quizId, $userId, $reponses)
 {
     global $bdd;

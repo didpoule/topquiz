@@ -1,4 +1,5 @@
 <?php
+// Get all available quiz
 function getListeQuiz()
 {
     global $bdd;

@@ -140,11 +140,18 @@ function array_compare(array $array1, array $array2, $sort = false)
     return $array1 == $array2;
 }
 
+/**
+ * @param $msg
+ * Displays message
+ */
 function get_msg($msg)
 {
     echo $msg . '<br />';
 }
 
+/**
+ * displays a button to close a message by refreshing page
+ */
 function closePopup()
 {
     echo '
@@ -191,6 +198,11 @@ function verifier_token($temps, $referer, $nom = '')
     }
 }
 
+/**
+ * @param $date
+ * @return DateTime|string
+ * Convert a datetime in french format
+ */
 function dateFr($date)
 {
     $dateFr = new DateTime($date);

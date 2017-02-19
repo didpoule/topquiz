@@ -17,7 +17,9 @@ function decrypt($encrypted_string, $encryption_key)
     return $decrypted_string;
 }
 
-
+/**
+ * Disconnect user
+ */
 function user_disconnect()
 {
     if ($_SESSION['is_connected']) {
@@ -26,6 +28,9 @@ function user_disconnect()
     header('Location: /');
 }
 
+/**
+ * Init $_SESSSION vars
+ */
 function user_init()
 {
     $_SESSION['user_id'] = 0;
@@ -36,6 +41,12 @@ function user_init()
     $_SESSION['is_connected'] = 0;
 }
 
+/**
+ * @param $quizId
+ * @param $resultId
+ * @return mixed
+ * Get user's quiz result
+ */
 function set_view_Result($quizId, $resultId)
 {
     $result = getQuizResult($quizId, $_SESSION['user_id'], $resultId);
@@ -43,6 +54,9 @@ function set_view_Result($quizId, $resultId)
     return $result;
 }
 
+/**
+ * Get user's done quiz ids
+ */
 function user_update_quiz()
 {
     require_once 'modules/user/model/user.php';
@@ -54,6 +68,9 @@ function user_update_quiz()
     }
 }
 
+/**
+ * Try to connect user by checking login and password sent
+ */
 function user_connect()
 {
     if (!$_SESSION['is_connected']) {
@@ -90,11 +107,15 @@ function user_connect()
     }
 }
 
+/**
+ * Give history of quiz done by user
+ */
 function user_history()
 {
     if ($_SESSION['is_connected']) {
         if(!isset($_GET['quiz'])) {
             $history = getUserHistory($_SESSION['user_id']);
+            // All quiz done
             if($history) {
                 if ($history['nombre'] > 1) {
                     $history['id_quiz'] = explode(',', $history['id_quiz']);
@@ -107,7 +128,7 @@ function user_history()
                 }
                 $action = 'history';
             }
-        } else {
+        } else { // Results for a same quiz
             $quizId = (int)$_GET['quiz'];
             $history = getUserQuizHistory($_SESSION['user_id'], $quizId);
             if ($history) {
@@ -125,6 +146,9 @@ function user_history()
     }
 }
 
+/**
+ * Call functions to display quiz result selected by user from his history
+ */
 function user_viewQuiz()
 {
     if ($_SESSION['is_connected']) {

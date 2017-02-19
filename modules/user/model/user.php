@@ -1,4 +1,10 @@
 <?php
+/**
+ * @param $login
+ * @param $password
+ * @param $pseudo
+ * Create a user
+ */
 function createUser($login, $password, $pseudo)
 {
     global $bdd;
@@ -11,6 +17,12 @@ function createUser($login, $password, $pseudo)
     $req->closeCursor();
 }
 
+/**
+ * @param $login
+ * @param $password
+ * @return mixed
+ * Returns true if login and password are exact
+ */
 function checkLogin($login, $password)
 {
     global $bdd;
@@ -23,6 +35,11 @@ function checkLogin($login, $password)
     return $donnees;
 }
 
+/**
+ * @param $login
+ * @return mixed
+ * Returns user's id
+ */
 function getUserId($login)
 {
     global $bdd;
@@ -34,6 +51,11 @@ function getUserId($login)
     return $donnees['id'];
 }
 
+/**
+ * @param $id
+ * @return mixed
+ * Returns user's nickname
+ */
 function getUserPseudo($id)
 {
     global $bdd;
@@ -45,6 +67,11 @@ function getUserPseudo($id)
     return $donnees['pseudo'];
 }
 
+/**
+ * @param $id
+ * @return mixed
+ * This function returns list of quiz name done by a user
+ */
 function getUserHistory($id)
 {
     global $bdd;
@@ -66,6 +93,13 @@ function getUserHistory($id)
     return $donnees;
 }
 
+/**
+ * @param $quizId
+ * @param $userId
+ * @param $resultId
+ * @return mixed
+ * This function returns an array of user quiz result
+ */
 function getQuizResult($quizId, $userId, $resultId)
 {
     global $bdd;
@@ -81,6 +115,12 @@ function getQuizResult($quizId, $userId, $resultId)
     return $donnees;
 }
 
+/**
+ * @param $userId
+ * @param $quizId
+ * @return array
+ * This function returns user results for a quiz id
+ */
 function getUserQuizHistory($userId, $quizId)
 {
     global $bdd;
@@ -92,7 +132,7 @@ function getUserQuizHistory($userId, $quizId)
                           WHERE luq.id_utilisateur = :idUser AND luq.id_quiz = :idQuiz
                           ORDER BY date DESC');
     $req->bindParam(':idUser', $userId, PDO::PARAM_INT);
-    $req->bindParam(':idQuiz', $quizId  , PDO::PARAM_INT);
+    $req->bindParam(':idQuiz', $quizId, PDO::PARAM_INT);
     $req->execute();
     $donnees = $req->fetchAll();
     $req->closeCursor();
