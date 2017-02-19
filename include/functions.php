@@ -190,3 +190,10 @@ function verifier_token($temps, $referer, $nom = '')
         return false;
     }
 }
+
+function dateFr($date)
+{
+    $dateFr = new DateTime($date);
+    $dateFr = $dateFr->format('d/m/Y à H:i:s');
+    return $dateFr;
+}

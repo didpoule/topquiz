@@ -36,9 +36,9 @@ function user_init()
     $_SESSION['is_connected'] = 0;
 }
 
-function set_view_Result($quizId)
+function set_view_Result($quizId, $resultId)
 {
-    $result = getQuizResult($_SESSION['user_id'], $quizId);
+    $result = getQuizResult($quizId, $_SESSION['user_id'], $resultId);
     $result = unserialize($result['reponses']);
     return $result;
 }
@@ -46,7 +46,7 @@ function set_view_Result($quizId)
 function user_update_quiz()
 {
     require_once 'modules/user/model/user.php';
-    $quizDone = getUserQuiz($_SESSION['user_id']);
+    $quizDone = getUserHistory($_SESSION['user_id']);
     if (!is_array($quizDone['id_quiz'])) {
         $_SESSION['quiz_done'] = explode(',', $quizDone['id_quiz']);
     } else {
@@ -93,15 +93,32 @@ function user_connect()
 function user_history()
 {
     if ($_SESSION['is_connected']) {
-        $history = getUserQuiz($_SESSION['user_id']);
-        if ($history['nombre'] > 1) {
-            $history['id_quiz'] = explode(',', $history['id_quiz']);
-            $history['titre'] = explode(',', $history['titre']);
+        if(!isset($_GET['quiz'])) {
+            $history = getUserHistory($_SESSION['user_id']);
+            if($history) {
+                if ($history['nombre'] > 1) {
+                    $history['id_quiz'] = explode(',', $history['id_quiz']);
+                    $history['titre'] = explode(',', $history['titre']);
+                } elseif($history > 0) {
+                    $history['id_quiz'] = array(0 => $history['id_quiz']);
+                    $history['titre'] = array(0 => $history['titre']);
+                } else {
+                    header('Location: ?section=user&action=history');
+                }
+                $action = 'history';
+            }
         } else {
-            $history['id_quiz'] = array(0 => $history['id_quiz']);
-            $history['titre'] = array(0 => $history['titre']);
+            $quizId = (int)$_GET['quiz'];
+            $history = getUserQuizHistory($_SESSION['user_id'], $quizId);
+            if ($history) {
+                foreach ($history as $k => $v) {
+                    $history[$k]['date'] = dateFr($v['date']);
+                }
+                $action = 'quizHistory';
+            } else {
+                header('Location: ?section=user&action=history');
+            }
         }
-        $action = 'history';
         require_once 'modules/user/view/user.php';
     } else {
         header('Location: ?section=user&action=connexion');
@@ -111,20 +128,26 @@ function user_history()
 function user_viewQuiz()
 {
     if ($_SESSION['is_connected']) {
-        if (isset($_GET['quiz'])) {
+        if (isset($_GET['quiz']) && isset($_GET['result'])) {
             $quizId = (int)$_GET['quiz'];
-            if (in_array($quizId, $_SESSION['quiz_done'])) {
-                require_once 'modules/quiz/model/quiz.php';
-                $quiz = getQuiz($quizId);
-                $quiz = setQuizArray($quiz);
-                $repChoisies = set_view_Result($quizId);
-                $correction = set_correction($quizId);
-                $score = quizScore($quiz['quiz_infos']['nombre_questions'], $repChoisies, $correction);
-                require_once 'modules/quiz/view/quiz_result.php';
-            } else {
-                $msg = 'Vous n\'avez pas encore réalisé ce quiz !';
-                header('Location: ?section=user&action=history');
-            }
+            $resultId = (int) $_GET['result'];
+                if (in_array($quizId, $_SESSION['quiz_done'])) {
+                    require_once 'modules/quiz/model/quiz.php';
+                    $repChoisies = set_view_Result($quizId, $resultId);
+                    if($repChoisies) {
+                        $quiz = getQuiz($quizId);
+                        $quiz = setQuizArray($quiz);
+                        $correction = set_correction($quizId);
+                        $score = quizScore($quiz['quiz_infos']['nombre_questions'], $repChoisies, $correction);
+                        require_once 'modules/quiz/view/quiz_result.php';
+                    } else {
+                        header('Location: ?section=user&action=history');
+                    }
+                } else {
+                    $msg = 'Vous n\'avez pas encore réalisé ce quiz !';
+                    header('Location: ?section=user&action=history');
+                }
+
         }
     } else {
         header('Location: ?section=user&action=connexion');

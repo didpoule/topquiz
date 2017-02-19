@@ -23,10 +23,15 @@
         if ($action == 'history') {
             $compteur = 0;
             foreach($history['titre'] as $v) {
-                echo '<h2><a href="?section=user&action=view&quiz=' .$history['id_quiz'][$compteur] . '">' . $v . '</a></h2><br />';
+                echo '<h2><a href="?section=user&action=history&quiz=' .$history['id_quiz'][$compteur] . '">' . $v . '</a></h2><br />';
             $compteur ++;
         }
-    }
+    } elseif ($action == 'quizHistory') {
+            echo '<h2>Historique pour le quiz: <em>' . $history[0]['titre'] . '</em></h2>';
+            foreach($history as $v) {
+                echo '<h3><a href="?section=user&action=view&quiz='. $v['id_quiz'] .  '&result=' . $v['id'] . '">'. $v['date'] . '</a></h3>';
+            }
+        }
 }
 ?>
 </div>

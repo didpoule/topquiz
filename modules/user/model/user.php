@@ -45,7 +45,7 @@ function getUserPseudo($id)
     return $donnees['pseudo'];
 }
 
-function getUserQuiz($id)
+function getUserHistory($id)
 {
     global $bdd;
     $req = $bdd->prepare('SELECT u.id AS id_utilisateur, 
@@ -66,17 +66,35 @@ function getUserQuiz($id)
     return $donnees;
 }
 
-
-function getQuizResult($userId, $quizId)
+function getQuizResult($quizId, $userId, $resultId)
 {
     global $bdd;
     $req = $bdd->prepare('SELECT luq.reponses AS reponses
                           FROM lnk_Utilisateur_Quiz AS luq
-                          WHERE luq.id_utilisateur = :idUser AND luq.id_quiz = :idQuiz');
+                          WHERE luq.id_quiz = :idQuiz AND luq.id_utilisateur = :idUser AND luq.id = :idResult');
+    $req->bindParam(':idQuiz', $quizId, PDO::PARAM_INT);
+    $req->bindParam(':idUser', $userId, PDO::PARAM_INT);
+    $req->bindParam(':idResult', $resultId, PDO::PARAM_INT);
+    $req->execute();
+    $donnees = $req->fetch();
+    $req->closeCursor();
+    return $donnees;
+}
+
+function getUserQuizHistory($userId, $quizId)
+{
+    global $bdd;
+    $req = $bdd->prepare('SELECT q.nom AS titre, luq.id, luq.date_ajout AS date,
+                                  luq.id_quiz
+                          FROM lnk_Utilisateur_Quiz AS luq
+                          INNER JOIN Quiz AS q
+                            ON q.id = luq.id_quiz
+                          WHERE luq.id_utilisateur = :idUser AND luq.id_quiz = :idQuiz
+                          ORDER BY date DESC');
     $req->bindParam(':idUser', $userId, PDO::PARAM_INT);
     $req->bindParam(':idQuiz', $quizId  , PDO::PARAM_INT);
     $req->execute();
-    $donnees = $req->fetch();
+    $donnees = $req->fetchAll();
     $req->closeCursor();
     return $donnees;
 }
