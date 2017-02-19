@@ -34,6 +34,7 @@
             ?>
         </div>
         <input type="hidden" name="id_quiz" value="<?= $quiz['quiz_infos']['id'] ?>">
+        <input type="hidden" name="token" value="<?= $token ?>">
         <input type="submit" name="envoyer">
     </form>
 </div>
