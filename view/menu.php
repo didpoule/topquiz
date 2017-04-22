@@ -1,6 +1,6 @@
 <nav id="main_menu">
     <ul>
-        <li><a href="/">Retour à l'index</a></li>
+        <li><a href="<?= getBasePath()?>">Retour à l'index</a></li>
         <?php if(!$_SESSION['is_connected']) {
             echo '<li><a href="?section=user&action=connexion">Se connecter</a></li>';
         } else {

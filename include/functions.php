@@ -5,6 +5,28 @@
  * @return array|bool // returns array with button names, else returns false
  *  Check if every field is set
  */
+function setBasePath()
+{
+    $dirName = '';
+    if (!defined('BASEURL')) {
+        if (basename(dirname(__DIR__)) != 'topquiz') {
+            $dirName = basename(dirname(__DIR__));
+        }
+        define('BASEURL', 'http://' . $_SERVER['HTTP_HOST'] . '/' . $dirName);
+    } else {
+        return 'La constante BASEURL, est déjà définie: ' . getBasePath();
+    }
+}
+
+function getBasePath()
+{
+    if (defined('BASEURL')) {
+        return BASEURL;
+    } else {
+        return 'La constante BASEURL n\'est pas définie.';
+    }
+}
+
 function selectedRadio($nomGroupe, $nbGroupes)
 {
     $error = array();

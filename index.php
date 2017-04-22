@@ -4,6 +4,7 @@ require_once 'include/sql.php';
 require_once 'include/functions.php';
 require_once 'modules/user/include/functions.php';
 require_once 'modules/quiz/include/functions.php';
+setBasePath();
 if(!isset($_SESSION['is_connected'])) {
     user_init();
 }
