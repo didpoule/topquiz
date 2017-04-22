@@ -4,3 +4,6 @@ What is topquiz ?
 
 	Author: Jordan Brito
 
+How it works ?
+	Edit `include/sql.inc.php` to set your database connection informations and rename the file to `sql.php`	
+
