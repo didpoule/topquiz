@@ -25,7 +25,7 @@ function user_disconnect()
     if ($_SESSION['is_connected']) {
         session_destroy();
     }
-    header('Location: /');
+    header('Location: index.php');
 }
 
 /**
