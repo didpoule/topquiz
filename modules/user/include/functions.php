@@ -94,13 +94,10 @@ function user_connect()
                 } else {
                     unset($_POST['connexion']);
                     $msg = 'Une erreur s\'est produite, veuillez reessayer.';
-                    $token = generer_token('login');
-
                 }
             }
-        } else {
-            $token = generer_token('login');
         }
+        $token = generer_token('login');
         require_once 'modules/user/view/login.php';
     } else {
         header('Location: ?section=user');
